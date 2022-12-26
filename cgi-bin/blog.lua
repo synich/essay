@@ -1,8 +1,8 @@
 -- blog.cgi/read?dt=220204
 local function read(q)
   local dt = q["dt"]
-  local belong = dt:sub(1,1)
-  local fd = io.open("../pub/b"..belong.."/"..dt..".md", "r")
+  local fname = popen(format("find ../pub | grep $", dt))
+  local fd = io.open(fname, "r")
   if fd then
     local txt = fd:read("*a")
     print(txt)
