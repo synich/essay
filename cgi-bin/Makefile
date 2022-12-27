@@ -12,6 +12,12 @@ tmrec: tmrec.lua
 	@chmod 755 $^.cgi
 	@mv $^.cgi tmrec.cgi
 
+dif:
+	@diff $(v) ../../cgi-bin/$(v)
+
+rel:
+	@cat $(v) >../../cgi-bin/$(v)
+
 ad:
 	@termux-fix-shebang *.cgi
 

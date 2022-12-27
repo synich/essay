@@ -136,7 +136,7 @@ local function _res_urlenc(str)
   return str
 end
 
-local function main()
+local function cgi_entry()
   -- part after r.cgi, e.g r.cgi/foo/bar, path_info is /foo/bar
   local path_info = os.getenv("PATH_INFO")
   -- part after ?(exclude ?), e.g r.cgi/foo?arg=3, query is arg=3
@@ -151,6 +151,13 @@ local function main()
       _url_str_tbl( _res_urlenc(urlencoded_content) ))
 end
 
+local function main()
+  if os.getenv("REQUEST_METHOD") then
+    cgi_entry()
+  else
+    pcall(unittest) -- must be global function
+  end
+end
 
 ---------------------------------------
 -- cgi entry, register bussness into fn

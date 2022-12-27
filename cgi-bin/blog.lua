@@ -46,7 +46,10 @@ fn["keyword"]=keyword
 fn["edit"]=edit
 fn["title"]=title
 fn["nedit"]=nedit
---read({dt="220115"})
+
+function unittest()
+  read({dt="220115"})
+end
 
 local function nedit(q, c)
   local dt = q["dt"]
