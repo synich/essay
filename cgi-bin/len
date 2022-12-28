@@ -155,7 +155,8 @@ local function main()
   if os.getenv("REQUEST_METHOD") then
     cgi_entry()
   else
-    pcall(unittest) -- must be global function
+    ok,msg = pcall(unittest) -- must be global function
+    print(ok, msg)
   end
 end
 

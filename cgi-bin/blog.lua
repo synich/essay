@@ -2,10 +2,11 @@
 local function read(q)
   local dt = q["dt"]
   local fname = popen(format("find ../pub | grep $", "$", dt))
+  local attr = fname:match("_(.-)%.") or "" -- 220204_lang.md, lang is attr
   local fd = io.open(fname, "r")
   if fd then
     local txt = fd:read("*a")
-    print(txt)
+    print(attr.."|"..txt)
   end
 end
 
