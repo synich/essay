@@ -34,10 +34,12 @@ SSL
 ----
 ssl工具的默认编码方式默认就是这种带BEGIN和END页眉页脚的块，块的内容称为PEM格式Privacy Enhanced Mail，是一种特殊的base64。从两端可以很清楚的看出内容的类型。RSA公钥类型是RSA PUBLIC KEY。没有任何前缀的PUBLIC KEY则代表X509公钥。
 
-PKCS8
+PKCS#8
 ----
-私钥可以用PKCS8加密然后编码成PEM格式。
+私钥可以用PKCS8方式存储。私钥首先会使用PKCS#5的标准进行加密，然后将其进行base64编码，转换成为PEM格式进行存储。
 
 题外话
 ----
 虽然ssh的公钥格式自成一派，但它的私钥却遵循了PEM格式，标识符OPENSSH PRIVATE KEY。也意味着openssl工具可以操作ssh私钥。
+
+PKCS是Public-Key Cryptography Standards的意思，它是RSA公司提出的公司私有规范，共15条。但由于RSA公司的行业影响力大，部分规范也被RFC和openssl软件支持。除了#8外，#7和#12是影响很大的标准，PKCS12可以看做是PKCS7的扩展，在PKCS12中可以存储证书，私钥或者CRL。和PKCS7相比，PKCS12可以额外存储私钥。
