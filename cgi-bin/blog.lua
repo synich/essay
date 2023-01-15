@@ -28,7 +28,8 @@ local function edit(q, c)
   local dt = q["dt"]
   local belong = dt:sub(1,1)
   local ctx = b64dec(c["ctx"])
-  local fd = io.open("../pub/b"..belong.."/"..dt..".md", "w")
+  local tag = q["tag"]
+  local fd = io.open("../pub/b"..belong.."/"..dt.."_"..tag..".md", "w")
   fd:write(ctx)
   fd:close()
   os.execute(format("echo $ >>../pub/blog_up", "$", dt))
