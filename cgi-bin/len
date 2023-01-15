@@ -156,7 +156,7 @@ local function main()
     cgi_entry()
   else
     local ok,msg = pcall(unittest) -- must be global function
-    if not ok then print(msg)
+    if not ok then print(msg) end
   end
 end
 
