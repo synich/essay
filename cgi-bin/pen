@@ -2,6 +2,8 @@
 
 def _urlstr_filldict(s, d):
     """split str and fill in dict"""
+    if s == "":
+        return
     arr = s.split("&")
     for i in range(len(arr)):
         kv = arr[i].split("=")
@@ -11,24 +13,29 @@ def cgi_entry():
     import sys
     import os
     from urllib.parse import unquote
-    method = os.environ["REQUEST_METHOD"]
-    path_info = os.environ["PATH_INFO"]
-    query_str = unquote(os.environ["QUERY_STRING"])
-    content = unquote(sys.stdin.read())
     print("Content-Type: text/html; charset=UTF-8\n")
 
+    path_info = os.environ["PATH_INFO"]
     pth_arr: list = path_info.strip("/").split("/")
     try:
         m = __import__(pth_arr[0])
         mth = getattr(m, pth_arr[1])
     except Exception as e:
-        print(f"ERROR path: {path_info}")
+        print(f"ERROR path: {path_info}, {pth_arr}.\n{e}")
+        return
 
-    qs_dict = {}
-    _urlstr_filldict(query_str, qs_dict)
-    ctx_dict = {}
-    _urlstr_filldict(content, ctx_dict)
-    mth(qs_dict, ctx_dict)
+    method = os.environ["REQUEST_METHOD"]
+    prm_dict = {}
+    try:
+        if method == "GET":
+            params = unquote(os.environ["QUERY_STRING"])
+        else:
+            params = unquote(sys.stdin.read())
+        _urlstr_filldict(params, prm_dict)
+        mth(method, prm_dict)
+    except Exception as e:
+        print(e)
 
 
 cgi_entry()
+
