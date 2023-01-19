@@ -28,6 +28,16 @@ tmrec: tmrec.lua
 	@chmod 755 $^.cgi
 	@mv $^.cgi tmrec.cgi
 
+cata: cata.lua
+	@cat lude $^ > $@.cgi
+	@echo "main()" >> $@.cgi
+	@chmod 755 $@.cgi
+
+article: article.lua
+	@cat lude $^ > $@.cgi
+	@echo "main()" >> $@.cgi
+	@chmod 755 $@.cgi
+
 dif:
 	@diff $(v) ../../cgi-bin/$(v)
 
