@@ -1,5 +1,5 @@
-SSH点滴
-====
+# SSH点滴
+
 验证方式
 ----
 从日志能看到3种验证方式，debug3: preferred publickey,keyboard-interactive,password。后两种表现上都是密码输入，区别是password是RFC-4252(sec 8)定义的，而keyboard在RFC-4256定义。理论上keyboard会询问用户各种问题，但从实现角度看，只用了密码一种方式。所以两种不同的规范看起来就像一样了(甚至xshell面对keyboard模式能自动输入密码)。两者都可以在`sshd_config`中独立控制，keyboard是KbdInteractiveAuthentication(也可以不设置，用ChallengeResponseAuthentication)，password是PasswordAuthentication。

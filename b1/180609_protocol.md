@@ -1,5 +1,5 @@
-论RESTFul特性
-====
+# 论RESTFul特性
+
 产生RESTFul的领域，似乎不能涵盖API风格。要求URL以名词性单词结尾，典型的比如心跳，要作为什么样的资源呢？也许可以强作令牌，但其它需求未必有适合的名词。
 
 再提一点很现实的问题，浏览器的GET不能携带body。RFC7231说明payload是no semantic的，XMLHttpRequest的实现会不允许发出，PUT/POST/DELETE可以。这就导致复杂的查询请求只能用POST来实现，已然破坏了获取语义。

@@ -1,5 +1,5 @@
-SSL杂记
-========
+# SSL杂记
+
 SSL和OpenSSL的关系，就好比C++和Visual C++的关系。OpenSSL是业界公认的烂代码，但也许是出来比较早，在江湖上已立稳了脚跟，因此尽管有很多人不爽，但毕竟现有项目大量的依赖，就我所知的一些fork项目都是采用头文件兼容，而重新实现的方式，也许若干年后OpenSSL会变成一个接口标准，那也是后话了。
 
 OpenSSL库在Linux下就一个文件，而在Windows下是分为libeay32和ssleay32两个文件，其中libeay是和加密算法相关的，包括AES、RSA、MD5等，而ssleay则是SSL握手、网络收发数据相关，因而需要依赖于libeay。取这么怪的名字是因为最初的作者是Eric A. Young而得名。

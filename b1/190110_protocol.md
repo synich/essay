@@ -1,5 +1,5 @@
-RTSP笔记
-==
+# RTSP笔记
+
 RTSP支持RTP/AVP, RTP/AVP/TCP两种传输模式的，前者也可以写作RTP/AVP/UDP，这种模式因为是UDP传输，客户端会携带自己的端口，通常是两个，音频和视频。而TCP是RTP over RTSP over TCP方式，复用连接并不需要传递端口。
 
 VLC向StreamApp请求，发送SETUP时指定RTP/AVP。由于库本身的问题，只能支持TCP，回复455表示不支持，于是VLC发起OPTION尝试，但响应中又携带了SETUP，于是VLC就不知道该如何执行下去。

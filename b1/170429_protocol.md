@@ -1,5 +1,5 @@
-P2P及SIP和xinetd
-====
+# P2P及SIP和xinetd
+
 P2P穿透涉及的协议有STUN/TURN/ICE，STUN是真正的UDP打洞，但只适用于cone NAT的网络环境下(完全、限制、端口限制三种都支持)，因为STUN的核心是子网内的客户端和公网建立连接后，NAT映射后的公网地址要能被另一个客户端使用，只有cone NAT才满足这个条件，symmetric NAT不允许公网端口复用，因此无法即使从公网上获取了NAT后的地址，也不能用来和另一个对端连接。
 
 对symmetric网络，只能使用中继方式，就用到TURN的方式，ICE要解决的问题和TURN类似，但两者的差异还没有完全清楚。

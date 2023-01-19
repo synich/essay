@@ -1,5 +1,5 @@
-HLS取流
-====
+# HLS取流
+
 HLS是HTTP Streaming传输视频的一种，由Apple提出，另外3GPP，微软和Adobe也有类似的技术，由于iPhone太强势，使得HLS几乎无人不知。
 
 URL对应的索引文件，就是M3U8，8代表UTF8。格式像这样
