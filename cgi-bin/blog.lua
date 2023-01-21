@@ -6,7 +6,7 @@ local function read(q)
   local fd = io.open(fname, "r")
   if fd then
     local txt = fd:read("*a")
-    print(attr.."|"..txt)
+    io.write(attr.."|"..txt)
   end
 end
 
