@@ -1,13 +1,13 @@
 # SSH点滴
 
-验证方式
-----
+## 验证方式
+
 从日志能看到3种验证方式，debug3: preferred publickey,keyboard-interactive,password。后两种表现上都是密码输入，区别是password是RFC-4252(sec 8)定义的，而keyboard在RFC-4256定义。理论上keyboard会询问用户各种问题，但从实现角度看，只用了密码一种方式。所以两种不同的规范看起来就像一样了(甚至xshell面对keyboard模式能自动输入密码)。两者都可以在`sshd_config`中独立控制，keyboard是KbdInteractiveAuthentication(也可以不设置，用ChallengeResponseAuthentication)，password是PasswordAuthentication。
 
 使用的加密套件是一直在加强的，遇到过用15年的dropbear连接20年的版本，会报没有合适的mac套件，如果是openssh可以加`KexAlgorithms diffie-hellman-group1-sha1`强制允许不够安全的加密方式。
 
-公钥登陆
-----
+## 公钥登陆
+
 Tinysshd不支持用户名密码登陆(甚至还删除了RSA公钥，只支持ed25519)，又比如安卓的用户体系被裁剪，只有PubkeyAuthentication。部分魔改的安卓程序可以支持用户登陆，比如dory的nodejs，就支持将密码做了SHA256的值保存到~/.ssh/doryauth，不过不是通用做法。
 
 首先使用ssh-keygen -t rsa -C "your@email"工具产生公私钥对，会提示输入passphrase，这是私钥的一个密码，相当于做了二次的保密。如果是生产环境，这个私钥的密码是必须要设置的，我用在内网和虚拟机比较多，再说用公钥登陆本来就是为了方便，所以暂时先不设了，但从安全性角度看，为私钥加个密码，在私钥丢失的时候，还是很有作用的。除了rsa还有dss, dsa, ecdsa, ed25519等很多方式，从7.0版本开始默认不再支持dss。
@@ -39,6 +39,7 @@ putty用的格式比较特殊，需要使用puttygen这个工具把ssh-keygen生
 主流的生成公私钥对工具是ssh-keygen，偏偏putty提供了类似的puttygen，但格式又不同，生成公私钥对后，千万不要用save public key按钮，因为openssh不识别这种文件格式，需要把窗口中的内容复制出来。
 
 用termux时遇到了server refused our key的错误，折腾再三，将`/usr/etc/ssh/sshd_config`内容加上这几句。似乎0.73版本后没有问题。
+
 ```
 PasswordAuthentication no
 PubkeyAuthentication yes
@@ -49,19 +50,19 @@ AuthorizedKeysFile ~/.ssh/authorized_keys
 
 结合以上的流程，可能失败的原因是缺少最后一句配置，指定公钥文件保存的位置。对sshd来说，收到putty提供的公钥，如果不知道去哪里找，显示会refused。但是对多用户系统是否也能这么写？怀疑应该是可以的，因为即使是公钥登陆，也必须指定用户名（公私钥对和用户名没有关系）。有了用户名，sshd就能从~映射到对应的用户目录。
 
-keygen的使用
-----
+## keygen的使用
+
 * ssh-keygen -y -f 私钥  # 从私钥计算公钥，可用-yf
 * ssh-keygen -l -f 公钥  # 从公钥计算指纹，可用-lf
 
-隧道
-----
+## 隧道
+
 平时用ssh感觉永远是连上远程主机并打开shell，其实只有加密连接远程主机这步不可缺少，在远程主机上打开shell是个默认行为，如果选择不打开shell，这时连接已经建立，就可以利用这条加密连接做些其它事，这就是隧道（又叫端口转发，因为是基于ssh的端口，工作在TCP层）。
 
 ssh连接建立后，双端配合启动隧道功能。隧道在客户端打开，所以是ssh在监听，而sshd负责消息转发。以L本地转发为例，客户侧的程序ClientProgram和ssh间是明文通信，ssh和sshd之间当然是密文，到了服务端的sshd侧，再按明文发给预设的端口，就完成了隧道的使命。
 
 因为ssh原本的任务就是加密并在server端启动shell进程，隧道无非是把启动shell改成向另一个指定端口转发消息，和整个流程是契合的。
 
-认证代理
---
+## 认证代理
+
 使用公私钥登陆时，如果所有主机用同一个私钥还好，但现实往往不同主机配不同私钥，ssh只认`id_rsa`一个名字（算法不同名字不同），这就导致要手动指定私钥。为解决这个问题，就有了ssh-agent和ssh-add这套方案，可以一次性手动把所有私钥通过ssh-add加到agent，如果私钥有passphrase，只要在add时输入一次，只要agent不挂，以后不用再输入，这样看起来私钥带上passphrase也并不麻烦。但有点让我介意的是，即使退出终端agent并不会结束，下一个人或者其他人登陆这台主机，可以可享agent规则登陆所有你登陆的主机，只是无法知道passpharse。虽说并没有更多的权限，但总感到有些不妥。

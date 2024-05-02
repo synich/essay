@@ -17,9 +17,10 @@ ENCTYPE="multipart/form-data" 并且/或含有`<INPUT type="file">`的标记的�
 
 随着HTML的发展，IETF也就是RFC的责任方决定将它交给W3C组织专门维护，也就没有RFC来记载HTML的描述了。
 
-上传
-----
-时间来到了HTML5标准，file元素配合FileReader对象，有了更多的变化。通过getElementById拿到这个file对象后，一个files的数组(虽然我没见过支持多文件选择，也许是为了以后扩展吧)，取`files[0]`就是文件对象，这个对象可以传到FileReader.readAsXXX。由于JS的异步属性，读取到的内容惯用法是在回调函数中返回，
+## 上传
+
+时间来到了HTML5标准，file元素配合FileReader对象，有了更多的变化。通过getElementById拿到这个file对象后，一个files的数组(虽然我没见过支持多文件选择，也许是为了以后扩展吧)，取`files[0]`就是文件对象，这个对象可以传到FileReader.readAsXXX。由于JS的异步属性，读取到的内容惯用法是在回调函数中返回
+
 ```
 reader=new FileReader;
 reader.readAsDataURL(files[0]);
@@ -28,8 +29,8 @@ reader.onload = function(){ this.result;// this指向reader，读取成功onload
 
 奇怪的是即使用二进制读出图片数据，再用base64转换得到的长度始终有问题，只能用DataURL获取图片，原因未知。
 
-下载
-----
+## 下载
+
 静态方式的下载用href标签可以实现`<a href=http://www.xx.com/xx.zip>点击下载</a>`，但是问题不少，用PHP实现，核心代码
 
 ```

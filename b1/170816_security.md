@@ -6,8 +6,8 @@
 * DSA：dsaparam/gendsa/dsa
 * EC：ecparam/ec
 
-RSA说明
-----
+## RSA说明
+
 生成私钥的命令是`openssl genrsa -out xxx.pem 2048`生成2048的私钥，但文件并不是2048bit，因为RSA私钥包含的内容很多，要看私钥文件的具体内容，可以用`openssl rsa -noout text xxx.pem`显示，从内容可以看出，modulus和privateExponent是2048bit，publicExponent是0x10001，其它的prime1/prime2等都是指定位长的一半，即1024bit。同理如果genrsa指定的长度是1024，modulus和privateExponent是1024bit，prime1/prime2等都是512bit。modulus和publicExponent共同构成了公钥文件的内容。RSA的加密会用到padding算法，解密必须指定相同的padding才能成功，因此其使用上的复杂度要高于椭圆曲线。
 
 使用openssl rsautl系列命令可以加解密。公钥加密私钥解密用`-encrypt -decrypt`，私钥加密公钥解密则是`-sign -verify`这对命令，但是libressl版的openssl支持用私钥调用-encrypt，却无法解密，不知道算不算bug。
@@ -16,8 +16,8 @@ RSA说明
 
 RSA的数字签名应用非常广泛，被固化到U盘作为签名私钥，有种更新的算法RSA-FDH(Full Domain Hash)。PDF的1.5版本只支持2048位的RSA签名。
 
-DSA说明
-----
+## DSA说明
+
 DSA生成公私钥比RSA要多一个步骤，先用dsaparam生成参数文件，这份参数文件可以被多个用户共用，生成每个用户各自的公私钥对。决定签名结果的因素有HASH算法和KEY的长度（推荐1024以上），生成参数命令`openssl dsaparam -out dsaprm.pem 1024`。可以看到生成文件就包含P/Q/G三个大数。P和Q都是素数，且P-1必须是Q的整数倍。
 
 用dsaparam指令的`-genkey`也能直接生成公私钥，独立的genkey指令则可以对生成的公私钥文件进行AES/Camellia加密。这样生成的文件内既有公钥又有私钥，显然不适合分发，需要把公钥提取出来，命令`openssl dsa -in dsakey.pem -out dsapub.pem -pubout`，坑爹的是`-pubout`参数在dsa的帮助命令里居然没有，但从rsa命令的帮助能看到。。。
@@ -26,8 +26,8 @@ DSA生成公私钥比RSA要多一个步骤，先用dsaparam生成参数文件，
 
 DSA的密钥强度标准和RSA是一样的，都推荐2048bit。
 
-EC椭圆曲线
-----
+## EC椭圆曲线
+
 共有三种用法
 
 1. Elliptic Curve DSA，用椭圆曲线做DSA，数字签名。

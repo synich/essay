@@ -9,13 +9,11 @@ OpenSSL库在Linux下就一个文件，而在Windows下是分为libeay32和sslea
 1. ms目录下有个文件要加no-asm，否则自带的汇编文件在vc6的masm无法编译，类似编nginx也遇到过md5和sha1有使用汇编的选项，大概hash类算法规律，用汇编效率提升明显。
 2. 编译要加’__i386__'选项，否则编crypt库会有链接错误，原因不明国内网站没有答案，是在英文站上看来的，不确定是否ssl部分也需要。
 
-实现SSL连接(PHP为例)
-----
+## 实现SSL连接(PHP为例)
+
 在我的安卓手机上运行PHP，由于域名解析机制不知什么原因，无法正常工作，只能先在PC上解析出IP，用PHP的socket机制完成连接。如果是HTTP连接使用"tcp://ip"的方式，再手工构造HTTP的GET请求，网页的内容就拿到了，如果是HTTPS则麻烦一点。
 
-首先PHP支持"ssl://ip"或者"tls://ip"，虽然看起来是不同的协议，但至少我安装的PHP环境发起的Client Hello请求都是TLS1.0(请求包头是16 03 01)，但是握手结束PHP会报类似这样的错误
-
-    Peer certificate CN=`example.server' did not match expected CN=`ip'
+首先PHP支持"ssl://ip"或者"tls://ip"，虽然看起来是不同的协议，但至少我安装的PHP环境发起的Client Hello请求都是TLS1.0(请求包头是16 03 01)，但是握手结束PHP会报类似这样的错误 `Peer certificate CN=`example.server' did not match expected CN=`ip'`
 
 原因是TLS连接时服务端会发送它的数字证书，证书的CN(CommonName)记载的内容和请求的IP地址不符合。
 

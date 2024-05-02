@@ -7,6 +7,6 @@
 * SHA-2：共有SHA-224/SHA-256/SHA-384/SHA-256这四种细分类型，224和384分别是256和512的截短版本，至少我还没有看到可靠的质疑的消息，Bitcoin计算交易哈希、MerklerRoot时，用的就是SHA-256算法
 * SHA-3：虽然SHA-2没有明确的证据证明不安全，但NIST(美国国家标准技术研究所，也发布AES、若干种椭圆曲线等其它加密技术)还是未雨绸缪地于2007年开始征集新的下一代密码Hash算法，最终在2012年10月2日，Keccak被选为NIST竞赛的胜利者，对外称为SHA-3，Keccak和SHA-2在设计上存在极大差别(海绵结构 VS Merkle-Damgard)，支持256，384，512多种长度的输出。以太坊出现时间在SHA-3之后，用的是SHA-3算法
 
-HMAC与HASH
-----
+## HMAC与HASH
+
 Go语言规整地把计算HASH的方法统一定义成hash.Hash接口，hmac.New(hash.Hash, []byte) hash.Hash。可以任意组合，不需要为每种HMAC增加特定方法。

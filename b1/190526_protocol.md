@@ -5,11 +5,13 @@ HTTP初衷是定义为无状态协议，但随着使用日渐广泛，认证也�
 示例
 
 Server
+
 ```
 WWW-Authenticate: Basic Realm=XYZ
 ```
 
 Client
+
 ```
 Authorization: Basic ABC=
 ```
@@ -18,8 +20,8 @@ Authorization: Basic ABC=
 
 为解决SSO问题，HTTP扩展了 Negotiation 认证，也叫SPNEGO(Simple and Protected GSSAPI Negotiation Mechanism)。 Windows 支持两种 Negotiation认证方案：NTLM和Kerberos。Linux上的实现一般不支持NTLM，只支持Kerberos。
 
-OAuth流程
---
+## OAuth流程
+
 每个带统计或权限的应用系统，肯定会希望有用户体系，但现实是用户往往不愿意注册，这种场景下，就要依赖向另一个管理帐号的系统(简称U)请求认证，并依赖U的校验结果去鉴定用户。
 
 要解决的第一个问题，不能触碰用户输入密码的环节，所以U一定要提供一个完全的登陆框，但这就安全固然解决，可是登陆后要去干什么呢？所以这个登陆页的参数一定要有个callback，如果登陆成功，把cb的值用302方式回复浏览器，这时还要带一个code，表示登陆成功，这个code在一段时间内，就可以证明，用户在U系统上是存在的。

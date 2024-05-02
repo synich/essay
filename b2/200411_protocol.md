@@ -8,14 +8,14 @@ ASCII的编码0到31，0对应^@，接下来是^A-^Z，从27到31依次是`[\]^_
 
 题外话：按下键盘上的回车键，相当于按下Ctrl+M，而Tab键则相当于Ctrl+I键。在bash中用bind -P查看按键映射，会发现自动补全的按键序列只显示Ctrl+I，一旦把Ctrl+I映射成其它功能，Tab键的功能也就跟着变了。
 
-ASCII码中不可打印字符
---
+## ASCII码中不可打印字符
+
 偶然间看OpenBSD开发的mandoc.db格式，提到用了3种格式，32位int和NUL结尾字符串都很普通，但第3种字符串列表的表述`lists of NUL-terminated strings, terminated by a second NUL character`，0是NUL，second NUL查看了ASCII表，对应的是2，含义是start of text。
 
 ASCII的前32个是控制字符，用在电传打字时代，来看看相近的几个描述，1-SOH(start of headling), 2-STX(start of text), 3-ETX(end of text), 4-EOT(end of transmission)。可以看到1开始文章标题，然后是2文章正文，3文章结尾，到4结束传输之间可能还有些附录、索引要添加。包括其它的请求应答、回车制表换行等，不可打印字符在文章结构划分、控制版式上是有实实在在的作用的。
 
-转义序列
---
+## 转义序列
+
 开发出Unix最早版本的PDP系统，既没有光标也没有删除，更没有上下左右键，有兴趣的可以体验[模拟器](http://pdp11.aiju.de/)。更友好的显示肯定是刚需，于是各厂商就开发各种转义协议，让屏幕出现光标、重绘、颜色等特性，起初厂商间各自为战，好在美国人向来有搞标准的习惯，1978年的VT100便是符合这个标准最初的成功样本。
 
 规范规定，转义序列在带内传输，序列总长度不固定，但必须以ESC开头，后面再跟0x40-0x5F字符(`@A–Z[\]^_`)。比较常见的有
