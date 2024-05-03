@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>$TITLE</title>
+	<meta content="width=device-width,initial-scale=1,maximum-scale=1.0" name="viewport">
+<style>
+body{color:#111;background-color:#f4f4f4;font-family:Montserrat, sans-serif;}
+h1{font-size:2em;background-color:#202020;color:#e7e7e7;margin:0;padding-top:0.5em;padding-left:0.5em;}
+h2{font-size:1.5em;color:#037;padding-top:0.2em;margin:0.2em;}
+h3{color:#409eff;}
+p{font-size:1.2em;}
+em{color:#00f;font-style:normal;}strong{color:#f00;font-style:normal;}
+pre{white-space:pre-wrap;font-size:1.1em;}
+code{background-color:#f1f1f1;font-size:1.1em;color:#d73737;}
+pre code{display: block;border: 1px solid #cccccc;}
+blockquote{border-left:5px solid #bbb;padding-left:0.5em;}
+ul li{list-style:circle;}ol li{list-style:hiragana;}
+table{border-collapse:collapse;border:1px solid;}th{border:1px solid;}td{border:1px solid;}
+textarea{font-family:Montserrat, sans-serif;width:100%;height:80vh;font-size:1.1em}
+article{background-color:hsl(60, 9%, 87%);max-width:80rem;margin:0 auto;padding:0 1rem;}
+.card{opacity: 0.87;position: relative;max-width:80rem;margin:0 auto 8px;
+box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+border-radius: 8px;background: white;}
+div.card h1{font-size:1.8em;color:#026;background-color:#f0f0f0;}
+.sec_pad{padding: 8px 12px;}
+.art_pad{padding: 2px 12px;}
+.kwd_pad{padding: 0px 12px;}
+div.edit_zone{border: 4px solid blue;}
+div.auto_high{position: relative;}
+span.auto_high{display: block;white-space: pre-wrap;word-wrap: break-word;visibility: hidden;}
+textarea.auto_high{position: absolute;top: 0;height: 100%;line-height: 20px;padding:0px 4px;box-sizing: border-box;}
+div.sd_by_sd{flex:1;}
+.prv_pad{padding-left:8px;}
+span.kwd_em{color:red}
+.footer{margin: 0 auto;text-align: center}
+nav {background: #202020;max-width:80rem;padding:0 12px;margin:0 auto;display: flex;}
+nav h1 {flex: 3;}
+nav label {color: #fff;padding-top: 0.5em;}
+.s_item{margin: 10px auto;text-decoration: underline;color: blue;}
+@media screen and (max-width: 400px) { #kwd{width: 100px;} }
+</style>
+<script type="text/javascript">
+!(function(top){ top.$tm||(top.$tm={})
+var jctx=[];
+function load_jctx(){
+/*include_mds_start*/
+/*include_mds_stop*/
+}var config_txt=`
+`;var config=JSON.parse(config_txt)
+/*buss_js*/
+})(this);
+/*dep_js*/
+</script>
+</head>
+<body onload="$tm.ev_boot()">
+<nav><h1>$TITLE</h1> <label><input id="kwd" type="search" oninput="$tm.ev_findkwd()" placeholder="search"></label>
+</nav>
+
+<div class="card kwd_pad" id="kwd_show"></div>
+
+<section id="eTopTag" class="card sec_pad">
+</section>
+
+<footer id="eFter" class="footer"></footer>
+</body></html>

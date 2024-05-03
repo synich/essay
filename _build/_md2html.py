@@ -26,7 +26,7 @@ def main():
     if 1 == len(sys.argv):
         print(f"usage: {sys.argv[0]} xx.md  -- generate same name html")
         return 0
-    with open(sys.argv[1], "r", encoding="utf-8") as f:
+    with open(f"../rumi/{sys.argv[1]}", "r", encoding="utf-8") as f:
         txt = f.read()
         _2htm(sys.argv[1][:-3], txt)
 
