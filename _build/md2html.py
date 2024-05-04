@@ -21,13 +21,21 @@ def _2htm(mddt: str, txt: str):
         f.write('<hr><a href="/">back</a></article></body></html>')
         f.flush()
 
+def scan_dir(d: str, lastday: float):
+    import os
+    import time
+    now = time.time()
+    for f in os.scandir(d):
+        if f.is_file() and f.name.endswith(".md"):
+            mtime = os.path.getmtime(d+f.name)
+            if (now-mtime) < lastday*86400:
+                with open(d+f.name, "r", encoding="utf-8") as fd:
+                    txt = fd.read()
+                    print("generate html by ", f.name)
+                    _2htm(f.name[:-3], txt)
+
 def main():
     import sys
-    if 1 == len(sys.argv):
-        print(f"usage: {sys.argv[0]} xx.md  -- generate same name html")
-        return 0
-    with open(f"../rumi/{sys.argv[1]}", "r", encoding="utf-8") as f:
-        txt = f.read()
-        _2htm(sys.argv[1][:-3], txt)
+    scan_dir("../rumi/", 1.0)
 
 main()
