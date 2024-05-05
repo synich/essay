@@ -36,6 +36,6 @@ def scan_dir(d: str, lastday: float):
 
 def main():
     import sys
-    scan_dir("../rumi/", 1.0)
+    scan_dir("../rumi/", float(sys.argv[1]))
 
 main()
