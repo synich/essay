@@ -39,3 +39,6 @@ cat dep.js >> %target%
 
 rem substitude title
 %sed% -i -e "s/$TITLE/%title%/" %target%
+for /f %%D in ('date /T') do (
+  %sed% -i -e "s=$GEN_DATE=%%D=" %target%
+)
