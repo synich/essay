@@ -1,23 +1,21 @@
 @echo off
+echo lookback[default-1] policy[default-1]
 if "%1" == "" (
   set backday=1
 ) else (
   set backday=%1
 )
 if "%2" == "" (
-  set target=tm.html
-  set mds=mds
-  set title=CardMemo
-  set policy=default
+  set policy=1
 ) else (
-  set target=pv.html
-  set mds=mdp
-  set title=Person
   set policy=%2
 )
 
 set sed=D:\soft\Git\usr\bin\sed.exe
 set python=D:\soft\python39\python.exe
+set target=tm%policy%.html
+set mds=mds%policy%
+set title=CardMemo%policy%
 cd /d %~dp0
 rem update md->mds
 %python% md2s.py %backday% %policy%

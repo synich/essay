@@ -1,7 +1,8 @@
 {"edit":true,
  "tagtr":{
-  "os":"操作系统","net":"网络原理","data":"数据库技术","security":"加密与安全",
-  "protocol":"通信协议","web":"Web开发","design":"软件设计",
-  "lang":"编程语言","tool":"软件工具使用","think":"所思所想","book":"读书笔记"
+  "os":"操作系统","net":"网络原理","security":"加密与安全",
+  "protocol":"通信协议","web":"Web开发","mine":"数据挖掘",
+  "lang":"编程语言","tool":"软件工具使用","data":"数据库技术",
+  "design":"软件设计","think":"所思所想","book":"读书笔记"
  }
 }

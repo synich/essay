@@ -81,12 +81,12 @@ def up_for_tm(lastday: float):
 
 if __name__ == '__main__':
     import sys
-    if sys.argv[2] == "default":
-        config = {
-            "from":["D:/code/static-essay/tid/"],
-            "to":"./mds/"}
+    policy = sys.argv[2]
+    if policy == "1":
+        config = { "from":["D:/code/static-essay/tid/b1/"] }
+    elif policy == "2":
+        config = { "from":["D:/code/static-essay/tid/b2/"] }
     else:
-        config = {
-            "from":["D:/code/essay/priv/"],
-            "to":"./mdp/"}
+        config = { "from":["D:/code/essay/priv/"] }
+    config["to"]=f"./mds{policy}/"
     up_for_tm(float(sys.argv[1]))
