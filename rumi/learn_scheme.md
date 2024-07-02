@@ -124,6 +124,8 @@ global由于始终按向car上挂接，非常不平衡，是个优化点。
 
 另一个角度看，由于main函数是定义在libgambit.a中，也没办法把scheme和C混合编程。
 
+有个并行扩展termite，把对象尽可能地序列化，不能序列化的本地资源以代理的方式pid化。
+
 ### Chicken
 
 chicken主包有csi和csc以及一些安装egg的程序，优化力度没有Gambit大，但轻量，同时周边生态非常好。由于和C的交互性比较好，还有chicken-libs和chicken-dev两个附加包，libs只含一个libchicken.so.xx（xx是具体实现版本），运行时加载。当然也支持静态编译，就归属于dev包，里面有.h和.a文件，同时还有个.so的软链接。
@@ -136,13 +138,15 @@ Gambit和Chicken都是能把Scheme编译成C源码的实现(另外还有Bigloo)�
 
 9个文件除掉main文件，剩下分为SEXP和EVAL两部分。SEXP包括`gc.o sexp.o bignum.o gc_heap.o`，S表达求值和两种GC策略及大数。EVAL包括`opcodes.o vm.o eval.o simplify.o`，实现求值、虚拟机指令、优化。
 
-和最常见的configure/make编译方式不同，Chibi的configure却顽皮地写了句：`Autoconf is an evil piece bloatware encouraging cargo-cult programming.`，直接用make就可以。即使如此也能做到在很多平台直接编译成功。第一次看到有人这样嘲讽Autoconf，算是说出了我的心声吧。
+和最常见的configure/make编译方式不同，Chibi的configure却顽皮地写了句：`Autoconf is an evil piece bloatware encouraging cargo-cult programming.`，直接用make就可以。即使如此也能做到在很多平台直接编译成功。第一次看到有人这样嘲讽Autoconf，算是说出了我的心声吧。win编译chibi-scheme，改完Makefile.libs的CC和PREFIX，make生成可用的库。
 
 实现上有很多有趣的实现技巧，比如用GCC的特性，`typedef int sint128_t __attribute__((mode(TI)));`定义128位int，在Windows平台使用`(DBL_MAX*DBL_MAX)`和`log(-2)`定义infinity和nan。
 
 核心形式只有10个：`DEFINE,SET,LAMBDA,IF,BEGIN,QUOTE,SYNTAX_QUOTE,DEFINE_SYNTAX,LET_SYNTAX,LETREC_SYNTAX`。
 
 chibi支持以C语言写插件并调用(如果不这样，scheme也不可能有大用了)，但想从C调用还没找到路径。
+
+snow-fort.org是符合R7RS的包站
 
 ### S7
 
