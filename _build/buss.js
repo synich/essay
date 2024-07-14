@@ -34,7 +34,7 @@ function createCata(tag){
   for (let ttl of tag2ttl[tag]){
 	ttl_lnk+=createTitleLink(ttl, ttl2idx[ttl])
   }
-  ttl_lnk+=`<hr />${config.tagtr[tag]?config.tagtr[tag]:tag}${_close_btn(uniid)}`
+  ttl_lnk+=`<hr />${config.tagtr[tag]?config.tagtr[tag]:tag}${tag2ttl[tag].length}篇${_close_btn(uniid)}`
   div.innerHTML=ttl_lnk
   return div
 }
