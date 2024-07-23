@@ -1,42 +1,5 @@
 #!/usr/bin/env python3
 
-def tid2md(j_fl):
-    def _wt2md(art):
-        import re
-        art = re.sub("^# ", "1. ", art, flags=re.M)
-        art = re.sub("^!!! ", "### ", art, flags=re.M)
-        art = re.sub("^!! ",  "## ", art, flags=re.M)
-        art = re.sub("^! ",  "# ", art, flags=re.M)
-        art = re.sub("''(.*?)''", "**\g<1>**", art)
-        return art
-    def _prop_tag(tid_tag):
-        right_tag = ""
-        md_tag = set(("lang","os","net","data","security","design","protocol","web","tool","think","finance"))
-        for i in tid_tag.split(" "):
-            if i in md_tag:
-                right_tag = i
-                break
-        return right_tag
-    import json
-    import sys
-    with open(j_fl, encoding="utf-8") as f:
-        j = json.loads(f.read())
-        for i in j:
-            cday = i["created"][2:8]
-            try:
-                tag = _prop_tag(i["tags"])
-                if tag == "":
-                    print(f"[{i['title']}] no right tag: [{i['tags']}]", file=sys.stderr)
-                    continue
-            except:
-                continue
-            fname = f'{cday}_{tag}.md'
-            with open(fname, "w", encoding="utf-8") as of:
-                of.write(f"# {i['title']}\n")
-                of.write(_wt2md(i["text"]))
-            print(cday)
-
-
 def md2json(fname):
     import json
     import os

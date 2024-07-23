@@ -15,7 +15,12 @@ Now it only support Windows, because I always write on it. There has two bat for
 
 build_tm.bat is simple wrap of md2s.py, you can specify the markdown file in which direcotory and which modify in last one day will be convert to mds and combine with other mds into `tm?.html`. You can change how many days on arguments.
 
+* createAllTopH: first screen
 * createCata: each catalog like `lang` or `think` called by this
 * createCard: each markdown render result(card) called by this
 
 build_rumi is also simple wrap of md2html.py.
+
+## rule and restrict
+
+all the memo should like `fname_tag.md`, fname is also `id` in html, tag at least 2 char and only allow `[a-z0-9]` and also `tag` in html

@@ -15,7 +15,14 @@ set sed=D:\soft\Git\usr\bin\sed.exe
 set python=D:\soft\python39\python.exe
 set target=tm%policy%.html
 set mds=mds%policy%
-set title=CardMemo%policy%
+if %policy% == 1 (
+  set title=Compute
+) else if %policy% == 2 (
+  set title=Liberal
+) else (
+  set title=Unknown
+)
+
 cd /d %~dp0
 rem update md->mds
 %python% md2s.py %backday% %policy%

@@ -14,7 +14,13 @@ sed=sed
 python=python3.9
 target=tm$policy.html
 mds=mds$policy
-title=CardMemo$policy
+if [ $policy = 1 ]; then
+  title=Compute
+elif [ $policy = 2 ]; then
+  title=Liberal
+else
+  title=Unknown
+fi
 
 # cd /d %~dp0
 # update md->mds
