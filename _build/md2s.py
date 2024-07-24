@@ -49,6 +49,8 @@ if __name__ == '__main__':
         config = { "from":["../tid/b1/"] }
     elif policy == "2":
         config = { "from":["../tid/b2/"] }
+    elif policy == "5":
+        config = { "from":["../tid/p5/"] }
     else:
         config = { "from":["D:/code/essay/priv/"] }
     config["to"]=f"./mds{policy}/"

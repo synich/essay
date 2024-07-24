@@ -20,7 +20,7 @@ if %policy% == 1 (
 ) else if %policy% == 2 (
   set title=Liberal
 ) else (
-  set title=Unknown
+  set title=Pamphlet
 )
 
 cd /d %~dp0

@@ -32,9 +32,11 @@ function createCata(tag){
   tag2ttl[tag].sort()
   var ttl_lnk=""
   for (let ttl of tag2ttl[tag]){
-	ttl_lnk+=createTitleLink(ttl, ttl2idx[ttl])
+	let i = ttl2idx[ttl]
+	let title_ctx_num = `${ttl} (${jctx[i]["text"].length}字)`
+	ttl_lnk+=createTitleLink(title_ctx_num, i)
   }
-  ttl_lnk+=`<hr />${config.tagtr[tag]?config.tagtr[tag]:tag}${tag2ttl[tag].length}篇${_close_btn(uniid)}`
+  ttl_lnk+=`<hr />${config.tagtr[tag]?config.tagtr[tag]:tag} ${tag2ttl[tag].length}篇${_close_btn(uniid)}`
   div.innerHTML=ttl_lnk
   return div
 }
