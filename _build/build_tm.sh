@@ -19,7 +19,7 @@ if [ $policy = 1 ]; then
 elif [ $policy = 2 ]; then
   title=Liberal
 else
-  title=Unknown
+  title=Pamphlet
 fi
 
 # cd /d %~dp0
