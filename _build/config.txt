@@ -8,7 +8,7 @@
   ,"his":"历史寻味"
 
   ,"scheme":"Scheme语言学习总结" ,"vcs":"版本管理工具" ,"css":"Web的皮相"
-  ,"protowk":"协议工作的感悟" ,"lua":"从Lua理解动态语言" ,"langex":"语言的交互-Lua与C"
+  ,"protowk":"协议工作的感悟" ,"lua":"从Lua理解动态语言" ,"langex":"编程语言的交互"
   ,"php":"最好的编程语言"
  }
 }

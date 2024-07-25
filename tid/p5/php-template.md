@@ -1,4 +1,4 @@
-# PHP模板引擎学习
+# 04 PHP模板引擎学习
 
 用了3种模板引擎，从Smarty入手，但是这个库很大，文件又多。另外找了两个模板库，
 TinyButStrong(简称TBS)和RainTPL。TBS这个库很有欺骗性，可能和Smarty比确实小，

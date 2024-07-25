@@ -1,4 +1,4 @@
-# PHP与Web服务器的集成方式
+# 10 PHP与Web服务器的集成方式
 
 PHP早期作为Web开发语言，监听HTTP请求并不在PHP做（虽然可以用-S选项来监听http请求，但毕竟不专业），产生环境中往往是由Web服务器(如Apache或Nginx)完成，当检测到是一个动态网页的请求，比如Url的后缀是.php，则把请求转给PHP程序，由它来处理后续的工作。在Windows上个人觉得比较好的集成工具是[PhpStudy](http://www.phpstudy.net)，集成了Apache/Nginx/Lighttpd等多种服务器(最新的2016版把Lighttpd去掉了)，而且支持多种PHP版本，就以PhpStudy安装后为例，分别说说两者的集成方式。
 
