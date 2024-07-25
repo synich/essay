@@ -1,21 +1,29 @@
 #!/usr/bin/env python3
 
-def md2json(fname):
+def _guess_id_tag(fname: str)->tuple:
+    """ fname must like tag-xxx.md or xxx_tag.md or xxx.md """
+    import re
+    purename = re.sub("\.md$", "", fname)
+    pos = fname.find("-")
+    if pos > 0:
+        return purename[pos+1:], purename[:pos]
+    pos = fname.find("_")
+    if pos > 0:
+        return purename[:pos], purename[pos+1:]
+    return purename, "unknown"
+
+def md2json(fname: str):
+    """ json field: id+tag+text """
     import json
     import os
     import re
-    out = {}
     with open(fname, "r", encoding="utf-8") as f:
-        txt = f.read()
         basename = os.path.basename(fname)
-        pos = -1!=basename.find("_") and basename.find("_") or basename.find(".md")
-        out["id"] = basename[:pos]
-        pt = re.search("_[a-z0-9]{2,}\.md", basename)
-        out["tag"] = "unknown"
-        if pt is not None:
-            pos = pt.span()
-            out["tag"] = basename[pos[0]+1:pos[1]-3]
-        out["text"] = txt
+        fid, tag = _guess_id_tag(basename)
+        out = {}
+        out["id"] = fid
+        out["tag"] = tag
+        out["text"] = f.read()
         return "jctx.push(JSON.parse("+repr(json.dumps(out, ensure_ascii=False))+"));"
 
 
