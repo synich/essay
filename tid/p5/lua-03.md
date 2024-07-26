@@ -78,3 +78,11 @@ luasys库的方式是：`#define lua_setfenv lua_setuservalue`。当然还是有
 3. 执行static的resume函数
 4. 执行`luaV_execute`进入新的一个lua的CallInfo中，即从main thread切换到coroutine
 5. yield会触发longjmp，于是回到第二步埋的点
+
+## GC
+
+使用三色标记法，对象分为白灰黑三种颜色。白表示死对象，可以用白事来简单记忆。经过标记为灰，灰再到黑。剩下的白对象就被收集了。先把所有的对象放在白链上，然后扫描这条链，把能reach到的对象放在灰链，再遍历灰链，把所有对象都mark成黑后，在灰链为空时把白链的对象清空，从而达到垃圾收集的目的。
+
+Lua对表的GC做了特别的优化。5.1的时代只要表具备weak属性，全放在g对象的weak链处理。到了5.2时代作了细化，weak链被拆成三条链，只有weak value的表记录在g对象的weak，weak key的表记录在g对象的ephemeron，key和value都是weak则记录在allweak。
+
+每次扫描时会用sweeplist遍历，最多遍历count次，如果是白对象，则释放它。

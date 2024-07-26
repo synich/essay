@@ -1,14 +1,15 @@
 {"edit":true,
  "tagtr":{
-  "os":"操作系统","net":"网络原理","security":"加密与安全",
-  "protocol":"通信协议","web":"Web开发","mine":"数据挖掘",
-  "lang":"编程语言","tool":"软件工具使用","data":"数据库技术",
+  "os":"操作系统","net":"网络原理","security":"加密与安全"
+  ,"protocol":"通信协议","web":"Web开发","mine":"数据挖掘"
+  ,"lang":"编程语言","tool":"软件工具使用","data":"数据库技术"
+  ,"distcomp":"分布式计算"
 
-  "design":"软件设计","think":"所思所想","book":"读书笔记"
-  ,"his":"历史寻味"
+  ,"design":"软件设计","think":"所思所想","book":"读书笔记"
+  ,"his":"历史寻味" , "finance":"经济交易"
 
-  ,"scheme":"Scheme语言学习总结" ,"vcs":"版本管理工具" ,"css":"Web的皮相"
+  ,"scheme":"Scheme和Lisp" ,"vcs":"版本管理工具" ,"css":"Web的皮相"
   ,"protowk":"协议工作的感悟" ,"lua":"从Lua理解动态语言" ,"langex":"编程语言的交互"
-  ,"php":"最好的编程语言"
+  ,"php":"最好的编程语言" ,"js":"理解JavaScript" ,"cpoint":"C和指针"
  }
 }

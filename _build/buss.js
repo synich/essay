@@ -20,7 +20,7 @@ function createAllTopH(){
   var toph=""
   for (let t in tag2ttl){
 	var showh = config.tagtr[t]?config.tagtr[t]:t
-	toph+=`<h2 onclick="$tm.ev_shwHd('${t}')">${showh}</h2>`
+	toph+=`<h2 class="top_h2" onclick="$tm.ev_shwHd('${t}')">${showh}</h2>`
   }
   return toph
 }
