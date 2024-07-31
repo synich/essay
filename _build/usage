@@ -23,4 +23,4 @@ build_rumi is also simple wrap of md2html.py.
 
 ## rule and restrict
 
-all the memo should like `tag-fname.md` or `fname_tag.md`, fname is also `id` in html, tag at least 2 char and only allow `[a-z0-9]` and also `tag` in html
+all the memo should like `tag_fname.md`, fname is also `id` in html, tag at least 2 char and only allow `[a-z0-9]` and also `tag` in html

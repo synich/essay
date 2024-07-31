@@ -54,8 +54,8 @@ function createCard(art, idx){
 	}
   }
   var edtbtn = config.edit?`<input value="edit" type=button onclick="$tm.ev_shwEdt(${idx})"/>`:"";
-  var tag= art["tag"]=="unknown"?"":`_${art["tag"]}`
-  div.innerHTML=renderText(art["text"])+`<hr />${art["id"]}${tag}
+  var tag= art["tag"]=="unknown"?"":`${art["tag"]}_`
+  div.innerHTML=renderText(art["text"])+`<hr />${tag}${art["id"]}
 	${lnkelem}
 	${edtbtn}
 	${_close_btn(uniid)}`
@@ -111,7 +111,7 @@ top.$tm.ev_rmnode=function(id){var n=document.getElementById(id);n.remove()}
 top.$tm.ev_save=function(idx, taid){
   var art = jctx[idx]
   var ta = document.getElementById(taid)
-  saveFile(`${art["id"]}_${art["tag"]}.md`, ta.value)
+  saveFile(`${art["tag"]}_${art["id"]}.md`, ta.value)
 }
 top.$tm.ev_chgVorE=function(mdid){
   var md = document.getElementById(mdid)

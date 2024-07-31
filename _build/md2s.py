@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 
 def _guess_id_tag(fname: str)->tuple:
-    """ fname must like tag-xxx.md or xxx_tag.md or xxx.md """
+    """ fname must like tag_xxx.md or xxx.md """
     import re
     purename = re.sub("\.md$", "", fname)
-    pos = fname.find("-")
-    if pos > 0:
-        return purename[pos+1:], purename[:pos]
     pos = fname.find("_")
     if pos > 0:
-        return purename[:pos], purename[pos+1:]
+        return purename[pos+1:], purename[:pos]
     return purename, "unknown"
 
 def gz_str(s_in: str)->str:
