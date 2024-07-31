@@ -12,6 +12,12 @@ def _guess_id_tag(fname: str)->tuple:
         return purename[:pos], purename[pos+1:]
     return purename, "unknown"
 
+def gz_str(s_in: str)->str:
+    import gzip
+    import base64
+    s_out = gzip.compress(s_in.encode("utf-8"))
+    return base64.b64encode(s_out).decode("utf-8")
+
 def md2json(fname: str):
     """ json field: id+tag+text """
     import json
@@ -23,7 +29,7 @@ def md2json(fname: str):
         out = {}
         out["id"] = fid
         out["tag"] = tag
-        out["text"] = f.read()
+        out["text"] = f.read() # compress is uesless
         return "jctx.push(JSON.parse("+repr(json.dumps(out, ensure_ascii=False))+"));"
 
 
@@ -59,6 +65,8 @@ if __name__ == '__main__':
         config = { "from":["../tid/b2/"] }
     elif policy == "5":
         config = { "from":["../tid/p5/"] }
+    elif policy == "9":
+        config = { "from":["../tid/"] }
     else:
         config = { "from":["D:/code/essay/priv/"] }
     config["to"]=f"./mds{policy}/"

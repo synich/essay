@@ -16,10 +16,10 @@ function createTitleLink(ttl, i){
 	return `<p class="s_item" onclick="$tm.ev_shwCard(${i})">${ttl}</p>`
   }else {return `<p>ERR LINK: ${ttl}</p>`}
 }
-function createAllTopH(){
+function createAllTopH(tag_n){
   var toph=""
-  for (let t in tag2ttl){
-	var showh = config.tagtr[t]?config.tagtr[t]:t
+  for (let t in config.tagtr[tag_n]){
+	var showh = config.tagtr[tag_n][t]
 	toph+=`<h2 class="top_h2" onclick="$tm.ev_shwHd('${t}')">${showh}</h2>`
   }
   return toph
@@ -36,7 +36,7 @@ function createCata(tag){
 	let title_ctx_num = `${ttl} (${jctx[i]["text"].length}字)`
 	ttl_lnk+=createTitleLink(title_ctx_num, i)
   }
-  ttl_lnk+=`<hr />${config.tagtr[tag]?config.tagtr[tag]:tag} ${tag2ttl[tag].length}篇${_close_btn(uniid)}`
+  ttl_lnk+=`<hr />${tag} ${tag2ttl[tag].length}篇${_close_btn(uniid)}`
   div.innerHTML=ttl_lnk
   return div
 }
@@ -127,7 +127,7 @@ top.$tm.ev_shwCard=function(idx){
 }
 top.$tm.ev_shwHd=function(tag) {
   var div = createCata(tag)
-  insert_div("eTopTag", div)
+  insert_div("kwd_show", div)
 }
 top.$tm.ev_shwEdt=function(idx){
   var div = document.createElement('div')
@@ -182,7 +182,9 @@ top.$tm.ev_boot=function(){
 	  }
     }
   }
-  document.getElementById("eTopTag").innerHTML=createAllTopH()
+  document.getElementById("eTopTag1").innerHTML=createAllTopH(0)
+  document.getElementById("eTopTag2").innerHTML=createAllTopH(1)
+  document.getElementById("eTopTag3").innerHTML=createAllTopH(2)
   var dt = new Date();
   document.getElementById("eFter").innerHTML=`Generated at $GEN_DATE, 共${jctx.length}篇笔记<br />© 2014 - ${dt.getFullYear()} 由mytid强力驱动`
 }
