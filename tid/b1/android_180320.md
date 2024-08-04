@@ -2,11 +2,19 @@
 
 ## 压缩包的文件构成
 
-最小的apk会有classes.dex/AndroidManifest.xml/resources.arsc文件和assets/META-INF(数字签名，记录了所有文件的SHA-1结果)/res目录，换句话说是由Java编译的字节码、资源文件原生库以及辅助文件(如编译说明、签名)共同打成的zip包。
+最小的apk有5个文件和目录，由Java编译的字节码、资源文件原生库以及辅助文件(如编译说明、签名)共同打成的zip包。
 
-不同apk之间是依靠记录在AndroidManifest.xml的包名和数字签名共同来进行区分的。
+* classes.dex: 核心字节码
+* AndroidManifest.xml: 不同apk之间就是依靠记录在本文件的包名，以及META-INF数字签名共同进行区分的。
+* resources.arsc
+* assets目录
+* META-INF目录: 记录了所有文件的SHA-1结果。有些制作程序会在./res子目录包含数字签名
 
-## 执行代码说明
+除了最小化组成，还会经常看到以下文件或目录
+
+* lib目录: 存放和芯片相关的二进制so，子目录名标识对应的指令集，如armeabi（v5指令集，首次支持MMU的ARM9），或armeabi-v7a（v7指令集，Cortex）
+
+### Java字节码码说明
 
 classes.dex文件是Dalvik字节码，也是主执行代码。java把每个源文件编译成class，而apk中只有一个dex，有点jar的味道。
 
