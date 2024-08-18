@@ -19,8 +19,6 @@
 
 默认bash，用chsh可以换sh，原理是把默认shell写入$HOME/.termux/shell。login不能作为默认shell。bash有700多K，而dash仅130K。bash提供了很多交互上方便的特性，典型的像通过改变PS1变量更换提示符，还有个内建钩子函数`command_not_found_handle`，当执行一个不存在的命令，会用一个外部程序给出更好的提示，比如用pkg安装某个对应包。
 
-用atilo可以安装完整的linux，原理是先启动基于proot打了patch后的termux-chroot构造假的root环境，从lxc-images下载基础镜像，再以proot方式启动。包括取消LD\_PRELOAD环境变量，用`env -i`加载空的环境，设置PROOT_NO_SECCOMP=1关闭可信计算。同时也说明这类镜像只依赖内核的syscall，辅以合适的根目录，就能运行。
-
 在termux上编译软件要注意，因为默认的/usr/local路径不可用，必须用 ./configure --prefix=$PREFIX/stow/xx-1.0 方式显示指定安装路径。安装后，进入stow目录，执行stow xx-1.0就能用了，执行stow -D xx-1.0则删除该软件。
 
 ## UbuntuForAndroid
@@ -71,3 +69,22 @@ apt-get autoremove
 ```
 
 这样就彻底向上跳了一个版本，后续版本的更新类似。不过在一台未root的手机上操作，最终却因为libc无法更新停在了half-install状态，此时尝试装file，会提示需要libc >= 1.20，但是jessie的版本是1.19，只有stretch是1.24，无法安装新的软件，导致这个版本等于是废了。
+
+## proot原理
+
+上述种种的地基就是proot，理论上只要有它，就可以安装完整的linux发行版。
+
+设想一下，如果把整个发行版的内容挂载到host的某个目录，并以此目录为根，就在一个系统内有了另一个子发行版。最早的切换根目录使用chroot，这次用的是proot，虽然都带root字样，但两者差别极大。chroot是系统函数，而proot则是基于ptrace接口的应用程序，p猜测是pseudo的简写。proot对它fork出的子进程做了ptrace挂钩，当子进程读写文件时，由父进程转成对/proc/pid/fd的读写，实现了子进程内对文件路径的改写。当然proot还实现了诸如进程身份修改、挂载host路径等额外功能。
+
+termux下的proot会和打了patch的termux-chroot一起构造假的root环境，如果不是termux，也可以使用静态proot。镜像可以从lxc-images下载，说明这类镜像只依赖内核的syscall就能运行。
+
+### 选项说明
+
+proot的选项很多，一般都会封装一个脚本，以下是重要的选项
+
+1. 取消LD\_PRELOAD环境变量
+2. 用-r指定根目录，但proot还提供了-S或-R，都是-r的超集，会额外加载一些host目录。-S还会使guset用户为root，更加方便
+3. 用一到多个-b加载额外的host目录，-w指定root目录
+4. 用`env -i`清空环境变量，再按需指定HOME/PATH/LANG等常用环境变量
+5. 设置PROOT_NO_SECCOMP=1关闭可信计算，设置PROOT_TMP_DIR目录（安卓没有/tmp）
+6. 执行sh进入发行版
