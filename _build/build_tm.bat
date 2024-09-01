@@ -16,11 +16,11 @@ set python=D:\soft\python39\python.exe
 set target=tm%policy%.html
 set mds=mds%policy%
 if %policy% == 1 (
-  set title=Compute
+  set title=SecondBrain
 ) else if %policy% == 2 (
   set title=Liberal
 ) else (
-  set title=SecondBrain
+  set title=Private
 )
 
 cd /d %~dp0
@@ -33,7 +33,7 @@ cat %mds%/*.mds >> %target%
 
 rem config for tag translation
 echo }var config_txt=`>> %target%
-cat config.txt >> %target%
+cat config%policy%.txt >> %target%
 echo `;var config=JSON.parse(config_txt);>> %target%
 
 rem buss/dep js and html body

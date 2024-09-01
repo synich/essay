@@ -57,13 +57,11 @@ if __name__ == '__main__':
     import sys
     policy = sys.argv[2]
     if policy == "1":
-        config = { "from":["../tid/b1/"] }
+        config = { "from":["../tid/"] }
     elif policy == "2":
         config = { "from":["../tid/b2/"] }
-    elif policy == "5":
-        config = { "from":["../tid/p5/"] }
     elif policy == "9":
-        config = { "from":["../tid/"] }
+        config = { "from":["../priv/"] }
     else:
         config = { "from":["D:/code/essay/priv/"] }
     config["to"]=f"./mds{policy}/"
