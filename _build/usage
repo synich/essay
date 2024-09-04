@@ -13,7 +13,7 @@ Now it only support Windows, because I always write on it. There has two bat for
 
 ## Under the hood
 
-build_tm.bat is simple wrap of md2s.py, you can specify the markdown file in which direcotory and which modify in last one day will be convert to mds and combine with other mds into `tm?.html`. You can change how many days on arguments.
+build_tm.bat is simple wrap of md2s.py, you can specify the markdown file in which direcotory and which modify in last one day will be convert to mds and combine with other mds and `config?.txt` into `tm?.html`. You can change how many days on arguments.
 
 * createAllTopH: first screen
 * createCata: each catalog like `lang` or `think` called by this
