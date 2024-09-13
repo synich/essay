@@ -186,5 +186,5 @@ top.$tm.ev_boot=function(){
   document.getElementById("eTopTag2").innerHTML=createAllTopH(1)
   document.getElementById("eTopTag3").innerHTML=createAllTopH(2)
   var dt = new Date();
-  document.getElementById("eFter").innerHTML=`Generated at $GEN_DATE, 共${jctx.length}篇笔记<br />© 2014 - ${dt.getFullYear()} 由mytid强力驱动`
+  document.getElementById("eFter").innerHTML=`Generated at $GEN_DATE, 共${jctx.length}篇笔记 ${Object.keys(lnkmap).length}对双链<br />© 2014 - ${dt.getFullYear()} 由mytid强力驱动`
 }
