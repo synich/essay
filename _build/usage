@@ -19,6 +19,11 @@ build_tm.bat is simple wrap of md2s.py, you can specify the markdown file in whi
 * createCata: each catalog like `lang` or `think` called by this
 * createCard: each markdown render result(card) called by this
 
+key variable
+
+* jctx: number array, each element has `id`+`tag`+`text`. `tag`_`id` is original file name
+* lnkmap: always even but not symmetry. because original may have a comma combine list, but the called has just one link
+
 build_rumi is also simple wrap of md2html.py.
 
 ## rule and restrict

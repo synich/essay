@@ -100,7 +100,7 @@ top.$tm.ev_findkwd=function(){
     for (let pr of lst){
 	  let i=pr[0], mt=pr[1]
       let ttl = _ttl_of_text(jctx[i]["text"])
-      jmp_ttl += createTitleLink(ttl, i)+mt
+      jmp_ttl += createTitleLink(ttl, i)+mt+` @${jctx[i]["tag"]}_${jctx[i]["id"]}`
     }
     document.getElementById("kwd_show").innerHTML = jmp_ttl
   }

@@ -1,16 +1,13 @@
 # 03 PHP的SESSION机制
 
-HTTP/HTML起初是为展示文件而设计的，天然就是短连接没有状态。
-像登陆业务却需要长连接，加之PHP又不具备daemon化特征，因此解决这个问题就要有些技巧。
+HTTP/HTML起初是为展示文件而设计的，天然就是短连接没有状态。类似登陆业务需要长连接，但PHP又不具备daemon化特征，因此解决这个问题就要有些技巧。
 
-先说短连接，TCP基于无连接的IP能达到流式效果，大概是有TCP首部的序号和确认序号机制，
-要在HTTP的短连接上要达到同样的效果，一样要有类似TCP序号的标记，这就是COOKIE。
-比如第一次登陆后返回一个特殊的COOKIE值，下次客户端把COOKIE带上，就能在短连接上模拟长连接的效果了。浏览器出于安全方面的考虑，不会主动添加COOKIE，都是由服务端增加，有时会对COOKIE设置超时时间，到了之后浏览器删除。
+先说短连接，TCP基于无连接的IP能达到流式效果，大概是有TCP首部的序号和确认序号机制，要在HTTP的短连接上要达到同样的效果，一样要有类似TCP序号的标记，这就是COOKIE。
+
+比如第一次登陆后，服务端设置一个特殊的COOKIE值，下次客户端把COOKIE带上，就能在短连接上模拟长连接的效果了。浏览器出于安全方面的考虑，不会主动添加COOKIE，只能由服务端增加，出于安全对COOKIE设置超时时间，到了之后浏览器删除。
 
 传输层面的问题解决了，接着就是服务端识别问题。如果像C或Java一直在监听，只需要把会话号记在内存就可以了，PHP却只能依靠持久化的方式，比如写文件来标记。
-前面提到COOKIE必须是服务端主动添加，要开启该功能就要调用`session_start`函数，也可以理解为服务端要向HTTP回复中写入Set-Cookie了。
-
-通过HTTP请求抓包中的COOKIE部分进一步地理解(如果是服务端返回则用Set-Cookie)：
+前面提到COOKIE必须是服务端主动添加，要开启该功能就要调用`session_start`函数，原理是服务端向HTTP回复的Header中写入`Set-Cookie: key=val`，下次客户端的HTTP请求Header中就会带上`Cookie: key=val`。（参考RFC文档）如果有多个值以分号区分，下面是PHP的COOKIE实例：
 
 * Cookie: TRACKID=6a366db255a08732cc44b1e1913dd2da; PHPSESSID=hamehnglgsj2sg6nbguq2146o3
 
@@ -31,7 +28,7 @@ value不能由用户定义，但可以变换表现形式。以上的例子使用
 * `session.save_handler` = files  // 对应的方法`session_module_name()`
 * `session.save_path` = "/tmp"
 
-如果files就要配置保存路径。对应memcache的话就是IP和端口。
+如果files就要配置保存路径。配置memcache的话就是IP和端口。
 files的名称一般是`sess_idvalue`，对应刚才的抓包，持久化的文件名就是`sess_hamehnglgsj2sg6nbguq2146o3`。每次请求到来，根据Cookie构造出session文件名，如果能读取文件，说明会话存在，从这个文件就可以还原回上一个状态。
 
 当然session的id值不能一成不变，默认3小时一换。通过`session.cache_expire = 180`来调整。
