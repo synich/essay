@@ -15,13 +15,7 @@ set sed=D:\soft\Git\usr\bin\sed.exe
 set python=D:\soft\python39\python.exe
 set target=tm%policy%.html
 set mds=mds%policy%
-if %policy% == 1 (
-  set title=SecondBrain
-) else if %policy% == 2 (
-  set title=Liberal
-) else (
-  set title=Private
-)
+
 
 cd /d %~dp0
 rem update md->mds
@@ -42,8 +36,6 @@ echo })(this);>> %target%
 cat dep.js >> %target%
 %sed% -ne "/<\/script>/,$p" main.html >> %target%
 
-rem substitude title
-%sed% -i -e "s/$TITLE/%title%/" %target%
 for /f %%D in ('date /T') do (
   %sed% -i -e "s=$GEN_DATE=%%D=" %target%
 )

@@ -166,6 +166,10 @@ top.$tm.ev_shwEdt=function(idx){
   })
 }
 top.$tm.ev_boot=function(){
+  if (config.title) {
+	document.querySelector("title").textContent = config.title;
+	document.getElementById("eTitle").innerHTML = config.title
+  }
   load_jctx()
   for (let i in jctx) {
     let ttl = _ttl_of_text(jctx[i]["text"]); ttl2idx[ttl]=i

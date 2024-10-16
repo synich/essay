@@ -14,13 +14,7 @@ sed=sed
 python=python3.9
 target=tm$policy.html
 mds=mds$policy
-if [ $policy = 1 ]; then
-  title=Compute
-elif [ $policy = 2 ]; then
-  title=Liberal
-else
-  title=Pamphlet
-fi
+
 
 # cd /d %~dp0
 # update md->mds
@@ -41,7 +35,5 @@ echo "})(this);" >> $target
 cat dep.js >> $target
 $sed -ne "/<\/script>/,\$p" main.html >> $target
 
-# substitude title
-$sed -i -e "s/\$TITLE/$title/" $target
 gd=`date +%C%y/%m/%d`
 $sed -i -e "s=\$GEN_DATE=$gd=" $target

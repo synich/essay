@@ -1,4 +1,4 @@
-{"edit":true,
+{"title":"第二大脑", "edit":true,
 "tagtr":[ {
    "mine":"数据挖掘"
   ,"distcomp":"分布式计算"
