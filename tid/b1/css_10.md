@@ -32,3 +32,16 @@ float
 
 https://github.com/dodoru/40LayoutExercise
 专门做的40个排版练习的演练，前端排版布局都还挺轻松。主要训练，float display position
+
+## 怎么学
+
+CSS的特殊字符
+
+* @指令: 最常用指令import,layer,media,keyframes,font-face
+* #和.选择器: 对应ID和类
+
+声明的优先级：继承和级联
+
+继承简单，只有1条规则:被继承的样式优先级最低(哪怕用important都不能提升)
+
+级联有4种大类。用户代码 > @layer > 插件注入(少见) > 浏览器自带
