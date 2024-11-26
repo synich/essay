@@ -26,7 +26,7 @@ cat $mds/*.mds >> $target
 
 # config for tag translation
 echo "}var config_txt=\`" >> $target
-cat config.txt >> $target
+cat config$policy.txt >> $target
 echo "\`;var config=JSON.parse(config_txt);" >> $target
 
 # buss/dep js and html body
