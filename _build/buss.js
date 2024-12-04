@@ -6,10 +6,14 @@ function dumpobj(e){var t= typeof e;for (let i in e){t=t+`\n${i} : ${e[i]}`};ale
 function _ttl_of_text(txt){var sp= "#"==txt[0]?2:0;return txt.substring(sp, txt.indexOf("\n"))}
 function _close_btn(uid){return `<input value="close" type=button onclick="$tm.ev_rmnode('${uid}')"/>`}
 function saveFile(flname, txt){
-  var a = document.createElement('a')
-  a.download = flname
-  a.href = URL.createObjectURL(new Blob([txt], {type: 'text/plain'}))
-  a.click()
+  if (0==window.location.href.indexOf('http') ) {
+    W.ajax('POST', '/cgi-bin/blog.cgi', {'tid':flname,'txt':txt},(resp,st)=>{alert(resp)})
+  } else {
+    var a = document.createElement('a')
+    a.download = flname
+    a.href = URL.createObjectURL(new Blob([txt], {type: 'text/plain'}))
+    a.click()
+  }
 }
 function createTitleLink(ttl, i){
   if (i!=undefined) {
@@ -62,7 +66,7 @@ function createCard(art, idx){
   return div
 }
 function insert_div(target, div){
-  document.getElementById(target).before(div)
+  document.getElementById(target).after(div)
   window.scrollTo({"left": div.offsetLeft, "top": div.offsetTop, behavior: "smooth"})
 }
 function _find_bykwd(kwd) {
