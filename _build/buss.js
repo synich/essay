@@ -1,4 +1,5 @@
 function _uniid(base){return `u${base}${Math.round(Math.random()*65536)}`}
+function islocal(){return 0!=window.location.href.indexOf('http')}
 function renderText(txt){
   if ("#"==txt[0]){return marked.parse(txt.replace(/\[\[([^\] ]+)\]\]/g, "*$1*"))}
   else {return `<p>${txt.replace(/\n/g, "<br/>")}</p>`}}
@@ -6,13 +7,13 @@ function dumpobj(e){var t= typeof e;for (let i in e){t=t+`\n${i} : ${e[i]}`};ale
 function _ttl_of_text(txt){var sp= "#"==txt[0]?2:0;return txt.substring(sp, txt.indexOf("\n"))}
 function _close_btn(uid){return `<input value="close" type=button onclick="$tm.ev_rmnode('${uid}')"/>`}
 function saveFile(flname, txt){
-  if (0==window.location.href.indexOf('http') ) {
-    W.ajax('POST', '/cgi-bin/blog.cgi', {'tid':flname,'txt':txt},(resp,st)=>{alert(resp)})
-  } else {
+  if (islocal()) {
     var a = document.createElement('a')
     a.download = flname
     a.href = URL.createObjectURL(new Blob([txt], {type: 'text/plain'}))
     a.click()
+  } else {
+    W.ajax('POST', '/cgi-bin/blog.cgi', {'tid':flname,'txt':txt},(resp,st)=>{alert(resp)})
   }
 }
 function createTitleLink(ttl, i){
