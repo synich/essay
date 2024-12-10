@@ -1,4 +1,4 @@
-# 10 论为什么CSS难学
+# 10-论为什么CSS难学
 
 很多人以为CSS是给DOM元素设置属性（attribute），其实CSS规定的并不是属性，而是行为（behavior），DOM里的每个元素都可以看成是一个独立的物体，按照CSS规定的方式运动，最后稳定下来的结果就是最终布局的结果。所以有人说CSS不正交，它当然不是正交的，因为它的设计就是要求协变，要求在其他元素做出调整的时候，即便本元素的样式没有发生任何变化，也可以跟着调整位置和大小，以适应新的内容，维持设计风格。
 
@@ -7,9 +7,11 @@
 前期准备：首先理解 HTML的一些常用的基本元素和常用样式属性的约束定义
 
 基本元素
+
 div, span, a, p, input, textarea, select, ul, li, h1-h6, hr
 
 常用样式
+
 display
 margin
 padding
@@ -21,7 +23,7 @@ height
 position
 float
 
-基础：把以下几个常用的CSS样式，记熟
+基础：把以下几个常用的CSS样式记熟
 
 1. 固定长宽的圆角有边框的头像
 2. 三角形， span (这个前端面试特别喜欢考
@@ -37,11 +39,5 @@ https://github.com/dodoru/40LayoutExercise
 
 CSS的特殊字符
 
-* @指令: 最常用指令import,layer,media,keyframes,font-face
+* @指令: 常用指令import,layer,media, keyframes,font-face
 * #和.选择器: 对应ID和类
-
-声明的优先级：继承和级联
-
-继承简单，只有1条规则:被继承的样式优先级最低(哪怕用important都不能提升)
-
-级联有4种大类。用户代码 > @layer > 插件注入(少见) > 浏览器自带
