@@ -33,7 +33,7 @@ float
 6. 进阶：前端排版布局练习
 
 https://github.com/dodoru/40LayoutExercise
-专门做的40个排版练习的演练，前端排版布局都还挺轻松。主要训练，float display position
+专门做的40个排版练习的演练，主要训练 float display position
 
 ## 怎么学
 
@@ -41,3 +41,4 @@ CSS的特殊字符
 
 * @指令: 常用指令import,layer,media, keyframes,font-face
 * #和.选择器: 对应ID和类
+* :和::标识伪元素pseudo-element，也能作为选择器的一部分
