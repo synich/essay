@@ -20,6 +20,6 @@
  ,{ "protowk":"协议工作的感悟" ,"security":"加密与安全"
    ,"lua":"从Lua理解动态语言" ,"langex":"编程语言的交互"
    ,"php":"最好的编程语言" ,"scheme":"Scheme和Lisp"
-   ,"compile":"编译原理" ,"cpoint":"C和指针"
+   ,"compile":"编译原理" ,"cpoint":"C和指针","game":"游戏功略"
   }
 ]}
