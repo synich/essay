@@ -127,8 +127,10 @@ top.$tm.ev_chgVorE=function(mdid){
   }
 }
 top.$tm.ev_shwCard=async function(idx){
-  var art = jctx[idx], tid = `${art["tag"]}_${art["id"]}.md`
-  if (!islocal()) {var ret = await W.awax('GET', '/cgi-bin/blog.cgi', {tid:tid})
+  var art = jctx[idx], tid = `${art["tag"]}_${art["id"]}.md`,
+  if (!islocal()) {var ret=''
+    try {ret = await W.awax('GET', '/cgi-bin/blog.cgi', {tid:tid}, 10000, true)}
+    catch(e){}
   if (ret.length>10) {art["text"] = ret}}
   var div = createCard(art, idx)
   insert_div("kwd_show", div)
