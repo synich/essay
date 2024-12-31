@@ -128,7 +128,7 @@ top.$tm.ev_chgVorE=function(mdid){
 }
 top.$tm.ev_shwCard=async function(idx){
   var art = jctx[idx], tid = `${art["tag"]}_${art["id"]}.md`
-  var wt = parseInt(W.observe('#kwd')())
+  var wt = parseInt(W.jq('#kwd')())
   if (!islocal() && !isNaN(wt)) {var ret=''
     try {ret = await W.awax('GET', '/cgi-bin/blog.cgi', {tid:tid}, wt, true)}
     catch(e){}
