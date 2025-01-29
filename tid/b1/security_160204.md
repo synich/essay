@@ -66,3 +66,14 @@ ssh连接建立后，双端配合启动隧道功能。隧道在客户端打开�
 ## 认证代理
 
 使用公私钥登陆时，如果所有主机用同一个私钥还好，但现实往往不同主机配不同私钥，ssh只认`id_rsa`一个名字（算法不同名字不同），这就导致要手动指定私钥。为解决这个问题，就有了ssh-agent和ssh-add这套方案，可以一次性手动把所有私钥通过ssh-add加到agent，如果私钥有passphrase，只要在add时输入一次，只要agent不挂，以后不用再输入，这样看起来私钥带上passphrase也并不麻烦。但有点让我介意的是，即使退出终端agent并不会结束，下一个人或者其他人登陆这台主机，可以可享agent规则登陆所有你登陆的主机，只是无法知道passpharse。虽说并没有更多的权限，但总感到有些不妥。
+
+## 客户端设置
+
+高版本不支持rsa握手，在.ssh/config增加这段
+
+```
+Host *
+HostkeyAlgorithms +ssh-rsa
+PubkeyAcceptedKeyTypes +ssh-rsa
+```
+
