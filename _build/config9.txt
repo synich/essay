@@ -1,0 +1,12 @@
+{"title":"私人笔记", "edit":true,
+"tagtr":[ {
+   "sumup":"岁月回首"
+  ,"review":"经历反思"
+  ,"finance":"经济交易"
+  ,"family":"家庭"
+ }
+ ,{"travel":"旅行"
+ }
+ ,{ "white":"白的文摘"
+  }
+]}
