@@ -203,3 +203,12 @@ top.$tm.ev_boot=function(){
   var dt = new Date();
   document.getElementById("eFter").innerHTML=`Generated at $GEN_DATE, 共${jctx.length}篇笔记 ${Object.keys(lnkmap).length}对双链<br />© 2014 - ${dt.getFullYear()} 由mytid强力驱动`
 }
+top.$tm.debug=function(act, p){
+  if (!act){console.log("e: export to 'gctx'; s i: save idx of gctx")}
+  else if (act=="e"){gctx=jctx}
+  else if (act=="s"){
+function s2g(i){var flname=jctx[i].tag+'_'+jctx[i].id+'.md';var txt=jctx[i].text;
+W.ajax('POST', '/cgi-bin/blog.cgi', {'tid':flname,'txt':txt},(resp,st)=>{console.log(resp+st)})
+} s2g(p)
+  }
+}
