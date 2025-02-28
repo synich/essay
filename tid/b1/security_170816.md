@@ -6,7 +6,7 @@
 * DSA：dsaparam/gendsa/dsa
 * EC：ecparam/ec
 
-## RSA说明
+## RSA
 
 生成私钥的命令是`openssl genrsa -out xxx.pem 2048`生成2048的私钥，但文件并不是2048bit，因为RSA私钥包含的内容很多，要看私钥文件的具体内容，可以用`openssl rsa -noout text xxx.pem`显示，从内容可以看出，modulus和privateExponent是2048bit，publicExponent是0x10001，其它的prime1/prime2等都是指定位长的一半，即1024bit。同理如果genrsa指定的长度是1024，modulus和privateExponent是1024bit，prime1/prime2等都是512bit。modulus和publicExponent共同构成了公钥文件的内容。RSA的加密会用到padding算法，解密必须指定相同的padding才能成功，因此其使用上的复杂度要高于椭圆曲线。
 
@@ -16,7 +16,11 @@
 
 RSA的数字签名应用非常广泛，被固化到U盘作为签名私钥，有种更新的算法RSA-FDH(Full Domain Hash)。PDF的1.5版本只支持2048位的RSA签名。
 
-## DSA说明
+### PEM文件头标识
+
+几乎所有的公钥文件，其PEM头都是PUBLIC KEY，通过解码后的OID进一步确定类型；但RSA因为出现的早，除了这个之外，还独享一种格式RSA PUBLIC KEY，又被称为PKCS1，从编号上也能看出来正是因为RSA的发明，才打开了公私钥加密这个门类，可以说有奠基性意义。
+
+## DSA
 
 DSA生成公私钥比RSA要多一个步骤，先用dsaparam生成参数文件，这份参数文件可以被多个用户共用，生成每个用户各自的公私钥对。决定签名结果的因素有HASH算法和KEY的长度（推荐1024以上），生成参数命令`openssl dsaparam -out dsaprm.pem 1024`。可以看到生成文件就包含P/Q/G三个大数。P和Q都是素数，且P-1必须是Q的整数倍。
 
