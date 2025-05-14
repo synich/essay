@@ -3,7 +3,7 @@
 def _guess_id_tag(fname: str)->tuple:
     """ fname must like tag_xxx.md or xxx.md """
     import re
-    purename = re.sub("\.md$", "", fname)
+    purename = re.sub(".md$", "", fname)
     pos = fname.find("_")
     if pos > 0:
         return purename[pos+1:], purename[:pos]
