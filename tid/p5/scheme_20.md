@@ -17,6 +17,10 @@
 
 作为对比，我也简单看过基于Python的lisp方言Hy，最近两年一直没有更新，而且Hy编译后的Python代码还依赖Hy库，发布也有问题。而fennel编译后就是纯粹的lua，而且作者的更新非常勤快，于我而言fennel的质量和可信赖程度也更高。
 
+## 不适应
+
+fennel没有显示return，不能中途退出（也许是lisp系通病）。with-open如果打开是nil不能提前退出。需要let配合case判断非nil，再将变量在with-open块重新绑定才能实现，有点啰嗦
+
 ## 宏
 
 fn和macro是一体两面，fn被import-macros导入时就变成了macro，说明这两者只是所处阶段不同，其它完全一样
