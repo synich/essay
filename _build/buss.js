@@ -13,7 +13,7 @@ function saveFile(flname, txt){
     a.href = URL.createObjectURL(new Blob([txt], {type: 'text/plain'}))
     a.click()
   } else {
-    W.ajax('POST', '/cgi-bin/blog.cgi', {'tid':flname,'txt':txt},(resp,st)=>{alert(resp)})
+    W.ajax('POST', '/cgi-bin/lude.cgi/blog', {'tid':flname,'txt':txt},(resp,st)=>{alert(resp)})
   }
 }
 function createTitleLink(ttl, i){
@@ -130,7 +130,7 @@ top.$tm.ev_shwCard=async function(idx){
   var art = jctx[idx], tid = `${art["tag"]}_${art["id"]}.md`
   var wt = parseInt(W.jq('#kwd')())
   if (!islocal() && !isNaN(wt)) {var ret=''
-    try {ret = await W.awax('GET', '/cgi-bin/blog.cgi', {tid:tid}, wt, true)}
+    try {ret = await W.awax('GET', '/cgi-bin/lude.cgi/blog', {tid:tid}, wt, true)}
     catch(e){}
   if (ret.length>10) {art["text"] = ret}}
   var div = createCard(art, idx)
@@ -208,7 +208,7 @@ top.$tm.debug=function(act, p){
   else if (act=="e"){gctx=jctx}
   else if (act=="s"){
 function s2g(i){var flname=jctx[i].tag+'_'+jctx[i].id+'.md';var txt=jctx[i].text;
-W.ajax('POST', '/cgi-bin/blog.cgi', {'tid':flname,'txt':txt},(resp,st)=>{console.log(resp+st)})
+W.ajax('POST', '/cgi-bin/lude.cgi/blog', {'tid':flname,'txt':txt},(resp,st)=>{console.log(resp+st)})
 } s2g(p)
   }
 }
