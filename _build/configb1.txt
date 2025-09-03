@@ -1,0 +1,13 @@
+{"title":"Tech", "edit":true,
+"tagtr":[ {
+   "mine":"数据挖掘"
+  ,"distcomp":"分布式计算"
+  ,"data":"数据库技术"
+  ,"os":"系统内核" ,"useos":"系统使用"
+  ,"web":"Web开发" ,"js":"理解JavaScript" ,"css":"Web的皮相"
+  ,"lang":"编程语言"
+  ,"thread":"进程与线程"
+ }
+ ,{ }
+ ,{ }
+]}
