@@ -1,4 +1,4 @@
-# 03-CSS布局
+# 03-CSS传统布局
 
 CSS最初并没有定位在布局功能，只是意外地发现盒模型配合float/position可以实现布局效果，但这种方式很hack且低效，还破坏元素间关系，所以增加了flex和grid布局。
 
@@ -18,7 +18,7 @@ PS: inline元素不能设置宽高，绝对定位也可以通过边界位置反�
 
 对整个页面来说，布局并不是只有一个，不同的局部块可以通过display设置不同的风格
 
-## 传统（老式）布局
+## 传统布局
 
 盒模型定义大小，定位决定位置，共同构成布局。三个关键字的优先顺序为display(不为none)>float(不为none)>position。
 
@@ -52,49 +52,3 @@ float和absolute/fixed在大的层面都是定位，脱离了文档流，具有�
 
 * 包裹性: 元素默认的宽度会占满整行,哪怕内容很少,也会以空白填充满这一行。一旦加了 float,会导致盒的宽度收缩到和内容一样,这种情况下,就可以在该元素的水平方向继续放置别的元素(左右取决于 float 的值)
 * 破坏性: 父元素的高度塌陷。float 元素脱离了文档流,导致父元素无法获取子元素的高度,于是父元素不再具有高度
-
-## flex布局
-
-有12个属性，分别作用在container和item上，此时float属性失效。
-
-### container属性
-
-* flex-direction
-* flex-wrap
-* justify-content
-* align-content
-* align-item
-
-最后有个flex-flow是1,2的简写，熟悉后再用
-
-### item属性
-
-* order
-* flex-grow
-* flex-shrink
-* flex-basis
-* align-self
-
-最后有个flex是2,3,4的简写，熟悉后再用
-
-## grid
-
-同样有container和item概念，分别有15个和10个属性
-
-## 实践
-
-侧边栏固定且沉底效果
-
-父元素使用`position: fixed`保持锁定,子元素使用`position: absolute;bottom 1em;`实现沉底效果
-
-### 特性解释
-
-为什么会有高度(边距)塌陷
-
-> 其实是为了兼容老一辈设计师,在堆叠两个元素时,如果叠加会很难看,标委会做了妥协,认同了塌陷这种反理工男直觉的特性。
-
-BFC，通过display:flow-root开启。三大作用
-
-* 清除浮动
-* 包裏浮动
-* 避免塌陷

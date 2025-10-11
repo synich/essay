@@ -1,75 +1,57 @@
-# 04-CSS框架学习笔记
+# 04-CSS高级布局
 
-不能和编程语言的框架类比，更像是一套工具集或是一种惯用法的集合。记录pico.css的要点
+## flex布局
 
-CSS三种使用场景语法不同，要注意区分
+有12个属性，分别作用在container和item上，此时float属性失效。
 
-* HTML元素class属性：只有空格分开的多个原子化的css定义类。标签名、ID不写在class里，不在此论述
-* JS选择器
-* CSS定义样式：无空格的连写式和emmet的简写法一致，可以组合标签、ID、类、自定义属性。定义时，多个类名之间有无空格的含义完全不同，`.a.b`表示同时有两个类，`.a .b`表示a下的b类，但不匹配a。除了空格还支持`>`和`+`等更具体的关系描述符
+### container属性
 
-## 伪类伪元素和定义变量
+* flex-direction
+* flex-wrap
+* justify-content
+* align-content
+* align-item
 
-开头是这样一段代码
+最后有个flex-flow是1,2的简写，熟悉后再用
 
-```
-:root {
-  --pico-spacing: 1rem;
-}
-```
+### item属性
 
-`:root`是伪类，特指根元素也就是html。--开头是变量，在后面可以用var(--pico)取值。整段表示对html全局定义一些变量，方便后续使用。
+* order
+* flex-grow
+* flex-shrink
+* flex-basis
+* align-self
 
-一个`:`开头的往往是伪类，两个冒号开头是伪元素。还有似乎是厂商专属`::-webkit`或`::moz`。看这个例子
+最后有个flex是2,3,4的简写，熟悉后再用
 
-```
-:where(nav li)::before {
-    float: left;
-    content: "-"
-}
-```
+## grid
 
-`:where`是比较新的伪类，用于选择具有子孙关系的元素；`::before`则是伪元素，整个连一起看就是选中nav下的li，然后在每个li的左侧加一个"-"
+同样有container和item概念，分别有15个和10个属性
 
-## 属性选择器
+## 实践
 
-先看css中的定义
+侧边栏固定且沉底效果
 
-```
-[data-tooltip] {
-    position: relative;
-}
-```
+父元素使用`position: fixed`保持锁定，子元素使用`position: absolute;bottom 1em;`实现沉底效果
 
-按规范，HTML元素可以自由添加`data-`前缀的属性，不管值是什么，上述的选择器都能生效。比如`<p data-tooltip="123">hello</p>`。
+### 特性解释
 
-如果写成`[data-tooltip=hi]`，表示值必须是`hi`才能生效。
+为什么会有高度(边距)塌陷
 
-### 多属性语法
+> 其实是为了兼容老一辈设计师，堆叠两个元素时，如果叠加边距会很难看，标委会做了妥协，认同了塌陷这种反理工男直觉的特性。
 
-如果是两个及以上的方括号，要怎么理解？如果是两个连在一起`[a][b]`，相当于and，既一个元素同时具有这两种属性时生效。
+## BFC(Block Foramtting Context)及其兄弟
 
-如果是通过逗号连在一起`[a],[b]`，则表示两个连续元素，分别有a和b属性时生效。比如`<button a><input b>`
+CSS2.0有了Fomatting Context概念，到了2.1明确定义了BFC和IFC；到3.0更是为flex和grid定义了FFC和GFC概念。
 
-## 问题排查
+涉及脱离文档流的场景，就可以用BFC。通过对父元素添加overflow:auto/hidden;display:flow-root;都可以会触发BFC，父元素会强制计算子元素的布局，使得布局正确。BFC只是改变了布局计算方式，并没有改变浮动属性。BFC的三大作用
 
-* 上下两个元素设置一样的 max-width,但显示时上窄不宽
+* 清除浮动
+* 包裏浮动
+* 避免塌陷
 
-原因是下面的元素设置了 padding 的左右值,而上面的元素未设置默认 0.max-width 默认表示 content 宽度,除非指定 border-box,才表示带边框的盒宽度
+### Stacking Context定位上下文
 
-## HTML转PDF的技巧
+不同样式触发的BFC在计算时会有些小差异，比如absolute子元素无法参与布局计算，这时只有overflow: hidden;能将外溢部分裁剪clip，其它BFC方式则没有这种能力。更技术的讲，overflow内含absolute/float时，会隐式创建定位上下文，其他BFC不具备，所以子元素会溢出。
 
-CSS的@media print可以单独控制打印稿的样式，格式
-
-```
-<style>
-@font-face {font-family:"MyF";src:url("file:///C:/Windows/Fonts/lucon.ttf");}
-@media print {
-p.xx_font { font-family:"MyF"; !important}
-}
-</style>
-```
-
-用wkhtmltopdf一定要加上--print-media-type才生效。-s 指定页大小，格式化的有 A0-A9, B0-B10，另外还有数种Letter, Ledger, Folio, Tabloid格式。要控制页边距，则用 -B -T -L -R 后面跟实际的物理单位控制。一台5.5寸手机大约在B7和B8之间。
-
-指定字体更复杂一些，首先通过font-face定义一个字体名，并用绝对路径方式定位到字体，因为是src:url导入的外部ttf文件，所以必须通过css类关联到元素才能改变字体。
+定位往往和浮动相关，又和z-index有紧密联系。
