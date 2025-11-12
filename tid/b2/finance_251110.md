@@ -15,3 +15,10 @@ avalanche，由exchange/platform/contract三条链构成，貌似是cosmos和pol
 solidity是最成熟使用者最多的语言，tron也兼容EVM。
 
 新的公链会更在意安全，如solana使用rust；更有aptos/sui使用move语言，前身是meta的libra，用所有权对智能合约进行规范化，将资产作为编程语言的原语resource/object，从技术上看安全性高于EVM的数字划转模式。
+
+### 应用
+
+* DAO 去中心化自组织，一群人成立LLC/LLP，并基于区块链来改进某个目的
+* DeFi 去中心化金融
+* NFT 不可交换代币，典型应用明星卡
+* GameFi 比较有名的是电子宠物
