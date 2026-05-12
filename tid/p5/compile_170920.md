@@ -4,15 +4,20 @@
 
 现在的Linux默认都用动态库，比如我最常用的CentOS，/lib/目录下几乎看不见.a库，gcc默认也找的是动态库(真实选项-Bdynamic)，除非用-static选项告诉ld只用静态库。(不过MinGW的gcc即使用了-Bdynamic，在静态和动态都存在的情况下依然会用静态库，原因不详)
 
+## 不同系统的差异和设计哲学
+
 加载动态库是一段专门的程序，它和系统用的C语言库强关联，在不同的系统表现形式也不一样
 
-* CentOS(也是绝大多数Linux)：/lib/ld-2.xx.so 和 /lib/ld-linux-xx.so.2
+* CentOS(也是绝大多数Linux)：/lib/ld-2.xx.so 或 /lib64/ld-linux-x86-64.so.2 或 /lib/ld-linux-aarch64.so.1（不同架构命名不同，但相同架构使用相同的名字）
 * Alphine(一个轻量级的Linux)：因为库体积的原因，使用了musl这个C库(libc.musl-xxx.so)，动态加载库和libc是合二为一都指向/lib/ld-musl-xxx.so.1
 * Aboriginal(一个更轻量的Linux)：使用uClibc库，动态链接/lib/ld-uClibc.so.0，从版本号看，libc、libm、libdl、libnsl、librt、libpthread、libcrypt、libresolv、libutil都在uClibc库的范围内
 * FreeBSD：/libexec/ld-elf.so
+* NetBSD: /usr/libexec/ld.elf_so
 * OpenBSD：/usr/libexec/ld.so
 
-其实Cent下ld-linux只是个指向ld.so的软链接，只是因为历史上ld.so处理a.out格式，ld-linux处理ELF格式，为了兼容名字一直保留到今天，其实程序是同一个。从FreeBSD的名字也可以看出，最初的名字叫ld.so，出现elf格式后，FreeBSD不再保留ld.so，全换成ld-elf.so了，但OpenBSD依然沿用。ld.so文件名在Linux中保留了版本号，我猜测这正是它和libc库强关联的证据，即根据编译时链接的libc库版本号，换算成对应的ld.so程序名，进而执行动态加载。
+linux系统只是内核，动态加载器由libc实现；而BSD则是整体发布，所以加载器是系统的一部分，都放在libexec目录，体现出不应该由用户直接调用的思想。
+
+Cent下ld-linux只是个指向ld.so的软链接，只是因为历史上ld.so处理a.out格式，ld-linux处理ELF格式，为了兼容名字一直保留到今天，其实程序是同一个。从FreeBSD的名字也可以看出，最初的名字叫ld.so，出现elf格式后，FreeBSD不再保留ld.so，全换成ld-elf.so了，但OpenBSD依然沿用。ld.so文件名在Linux中保留了版本号，我猜测这正是它和libc库强关联的证据，即根据编译时链接的libc库版本号，换算成对应的ld.so程序名，进而执行动态加载；BSD由于整体发布，因此ld.so不用带版本号。
 
 动态加载必然涉及从遍历目录的过程，这必然涉及配置和更新目录集，虽然不同的系统配置名字不一样，Linux用ld.so.conf，而FreeBSD用libmap.conf，但最终都要通过ldconfig程序将配置转换成更高效率的格式，ldconfig和ldd最早都出现于SunOS 4.0，所以现在大家依然沿用这个名字。
 
