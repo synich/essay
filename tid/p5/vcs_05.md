@@ -1,6 +1,8 @@
 # 03 理解Git概念篇
 
-和cvs/svn相比，操作粒度从文件变成了commit。而操作步骤上的变化则是多出了暂存区index的概念，每次提交都分为add(也可以用stage，同义词)和ci两个步骤。有观点提出，这是为了达到svn的多文件原子提交，但命令行不容易选文件，于是多出个中间环节，先小步多次挑选要提交的文件，用add将工作区的文件提交到index暂存区，然后ci实现原子化的从暂存区向仓库区的提交。通过日志也能看到commit前后两次index的变化，每次也会用sha1编码来表示。
+和cvs/svn相比，操作粒度从文件变成了commit。操作步骤上的变化则是多出了暂存区(index或cache)，有观点提出，这是为了达到svn的多文件原子提交，但命令行不容易选文件，于是多出暂存区。
+
+每次提交分为add和ci两个步骤：先小步多次挑选要提交的文件，用add将工作区的文件提交到暂存区，然后ci实现原子化的从暂存区向仓库区的提交。通过日志也能看到commit前后两次index的变化，每次也会用sha1编码来表示。
 
 其实暂存区并不是必备的，创建时用git init --bare就能创建没有.git目录的仓库（原来放在.git目录下的文件在当前目录直接能看到，相当于整个目录自己就是.git目录）。这个仓库无法执行add操作，一般用来做中心仓库，多人向裸仓库推。如果不这样，冲突会很多，所以有bare特性。
 
@@ -8,11 +10,14 @@
 
 git有三个层面的配置local(repo级), global(用户级), system(/etc级)。
 
-一切皆object的设计理念
+## 一切皆object的设计理念
 
 每个object都用SHA-1表示，有4种类型：commit, tag, tree, blob。互相之间的关系是：tree和blob共同组成commit，对commit打上标记形成tag。
 
-## commit
+* add可以拆解为hash-object和update-index命令
+* commit可以拆解为write-tree、commit-tree、update-ref命令
+
+### commit
 
 所有的提交形成一个commit树，每个commit号标示出树上唯一确定的点。本地或远程Branch、Tag、HEAD都是这个commit树上某个点或某根枝条的别名。
 
@@ -21,7 +26,7 @@ git有三个层面的配置local(repo级), global(用户级), system(/etc级)。
 * Branch: 对应commit树上某一段（如果不开分支，就是整棵树）的别名，由于是枝的形状，所以不表示某个具体的提交点，但可以沿着枝来溯源
 * dangling/orphaned: 有些提交被reset或其它操作重置后，无法被任何的命名分支追踪到，成了孤立提交。用`git fsck --full --no-reflogs --unreachable --lost-found`和`git gc --prune=now`来找到或清理它们
 
-## tag
+### tag
 
 打上tag后，可以用name-rev或describe查看某个commit和tag的关系，但似乎name-rev只能找比tag时间更早的commit，而describe恰好相反，只能找比tag时间晚的commit。
 
@@ -68,7 +73,7 @@ refs/heads/保存了所有分支。删除一个旧的分支，没问题。但如
 查看对象
 
 * show
-* cat-file
+* cat-file/ls-file
 
 操作远程
 
