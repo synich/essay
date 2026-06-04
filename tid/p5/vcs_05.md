@@ -14,12 +14,15 @@ git有三个层面的配置local(repo级), global(用户级), system(/etc级)。
 
 每个object都用SHA-1表示，有4种类型：commit, tag, tree, blob。互相之间的关系是：tree和blob共同组成commit，对commit打上标记形成tag。
 
-* add可以拆解为hash-object和update-index命令
-* commit可以拆解为write-tree、commit-tree、update-ref命令
+### blob
 
-### commit
+add可以拆解为hash-object和update-index命令，hash-object就负责生成blob文件，blob只有内容没有文件名，需要tree配合
 
-所有的提交形成一个commit树，每个commit号标示出树上唯一确定的点。本地或远程Branch、Tag、HEAD都是这个commit树上某个点或某根枝条的别名。
+### tree和commit
+
+commit命令可以拆解为write-tree、commit-tree、update-ref命令
+
+tree已经包含了所有内容，但缺少用户信息、提交记录、时间等信息，所以又衍生出commit。所有的commit形成一个commit树，每个commit号标示出树上唯一确定的点。本地或远程Branch、Tag、HEAD都是这个commit树上某个点或某根枝条的别名。
 
 * HEAD: 动态指向这棵树上当前开发最新节点。注意这个最新不一定是树的末端，而是当前开发在哪个状态，随着每次提交动作而移动
 * Tag: 静态指向commit树的某个节点，一旦确定就永远不再变化
@@ -72,14 +75,10 @@ refs/heads/保存了所有分支。删除一个旧的分支，没问题。但如
 
 查看对象
 
-* show
-* cat-file/ls-file
+* cat-file -t|-p|-s /ls-files
+* show: 对tree/blob约等于 cat-file -t -p
 
 操作远程
 
 * remote
 * ls-remote
-
-操作索引
-
-* add命令是hash-object + update-index两条命令的组合封装
