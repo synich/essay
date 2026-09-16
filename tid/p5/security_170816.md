@@ -34,17 +34,20 @@ DSA的密钥强度标准和RSA是一样的，都推荐2048bit。
 
 ## EC椭圆曲线
 
-共有三种用法
+有三种用法
 
 1. Elliptic Curve DSA，用椭圆曲线做数字签名，有逐渐取代传统DSA的趋势
 2. ECDH，用椭圆曲线做密钥交换
 3. ECIES，椭圆曲线的公钥加密
 
-Openssl的命令行工具支持前两种，并内建若干条曲线，比如下载的libressl自带了90条曲线，选好曲线的名字如secp256k1，参数值prime/A/B/Generator/Order/Cofactor就确定了。曲线有prime域和binary域两种。域会有位宽，通过openssl的ecparam生成的参数长度和位宽正相关，但并不严格地成线性关系。
+Openssl的命令行工具支持前两种，并内建若干条曲线，libressl自带了90条曲线。椭圆曲线按底层有限域区分，有prime域和binary域两种，2000年以前binary域使用得较多，近些看由于种种原因很少有人使用，而是转向prime域。域有位宽，通过openssl的ecparam生成的参数长度和位宽正相关，但并不严格地成线性关系。抛开位数和选取参数的差异，重要的就两类
 
-使用椭圆曲线和DSA类似，也必须要两个步骤。先确定一条曲线参数，基于这条曲线参数生成公私钥。但Openssl的命令行没有genec指令，都是ecparam指令。
+1. Random随机曲线，典型代表secp256r1(又叫P-256或prime256v1，但都有P，表示prime域)。是TLS等众多加密算法首选，根据选点的不同，还有SM2等变体，数学性质和强度相同
+2. Koblitz曲线，效率更快，典型代表secp256k1（带p，同样表示prime域）。主要是比特币等加密货币使用。Koblitz也有binary域曲线，但已经很少使用
 
-1. 用`openssl ecparam -name secp256k1 -out secp256k1.pem`生成一条曲线参数，生成的参数文件内容只有8字节（Base64后12字节）。如果直接用`openssl ecparam -text -noout`只能看到ASN1 OID: secp256k1描述，需要再加上`-param_enc explicit`参数，就能看到域类型和曲线的A/B值等很多值。前面提到了因为曲线描述一旦确定，则所有参数就确定了，所以这些参数我理解，并不是保存在参数文件，而是硬编码在Openssl内。所以8字节的参数文件看上去就有很多输出了。但是这样会有兼容性问题，因为具体的参数硬编码在Openssl程序内，那么高版本程序新加入的曲线，在低版本就会出现无法解析的错误。要避免这种情况，可以通过生成时加上`-param_enc explicit`，这样生成的曲线文件就会大很多，也完整很多。
+选好曲线的名字后，参数值prime/A/B/Generator/Order/Cofactor就确定了。使用椭圆曲线和DSA类似，也必须要两个步骤。先确定一条曲线参数，基于这条曲线参数生成公私钥。但Openssl的命令行没有genec指令，都是ecparam指令。
+
+1. `openssl ecparam -name secp256k1 -out secp256k1.pem`生成一条曲线参数，生成的参数文件内容只有8字节（Base64后12字节）。如果直接用`openssl ecparam -text -noout`只能看到ASN1 OID: secp256k1描述，需要再加上`-param_enc explicit`参数，就能看到域类型和曲线的A/B值等很多值。前面提到了因为曲线描述一旦确定，则所有参数就确定了，所以这些参数我理解，并不是保存在参数文件，而是硬编码在Openssl内。所以8字节的参数文件看上去就有很多输出了。但是这样会有兼容性问题，因为具体的参数硬编码在Openssl程序内，那么高版本程序新加入的曲线，在低版本就会出现无法解析的错误。要避免这种情况，可以通过生成时加上`-param_enc explicit`，这样生成的曲线文件就会大很多，也完整很多。
 
 2. 有了参数文件，就可以生成私钥了，命令`openssl ecparam -genkey -in secp256k1.pem -out key256k1.pem`。同样的，要避免高版本和低版本的配套问题，加入`-param_enc explicit`参数就可以了。其实这步和上一步合并也没有问题。通过私钥文件生成公钥的命令是`openssl ec -pubout`，和DSA一样，`-pubout`在帮助中看不到。
 
@@ -52,7 +55,7 @@ Openssl的命令行工具支持前两种，并内建若干条曲线，比如下�
 
 首字节是0x30，第二个字节是0x45，十进制69表示该字节之后的文件长度，69\+2=71能够和文件总长度对上。第三个字节固定是0x02。第四字节0x21表示R的长度，偏移33字节后又是0x02，后一字节0x20表示S的长度，到此文件结束。不过没搞明白的是通过程序看到的R和S长度一样，为什么保存到文件R和S长度就不一样了。
 
-最后说下椭圆曲线的操作是点在操作，计算用加法，计算结果判断是否无限或在曲线上。
+椭圆曲线的操作是点在操作，计算用加法，计算结果判断是否无限或在曲线上。
 
 椭圆曲线的操作体现在C函数的接口，则是`EC_KEY`和`EC_GROUP`这两个重要的概念。一条选定参数的曲线就是一个group，用`EC_GROUP_new_by_curve_name`获取一个group，从头文件找枚举代表一种算法。
 用`EC_KEY_new`创建新的key，这样的key虽然名字叫key但只是个空的容器，必须先和group关联。当然也可以用`EC_KEY_new_by_curve_name`一步生成绑定好的key。key和group有了关联之后，才能调用`EC_KEY_generate_key`生成公私钥。
