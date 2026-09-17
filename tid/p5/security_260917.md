@@ -1,0 +1,25 @@
+# 密钥交换与签名
+
+和加密不同，密钥交换和签名属于在安全领域要稍稍深入些的话题，但只要对[[对称加密实践]]和[[非对称加密算法记录]]有一定的理解，再理解这两个方向就会很容易
+
+## DH
+
+对称加密需要双方共享一个相同的secret，为了安全地传递这个secret才有了DH算法，所以是一种衍生加密应用。
+
+DH算法出现于1970年代，基于素数分解算法，由于计算强度太大还不安全，演化成了基于椭圆曲线的密钥交换(ECDH)算法。TLS1.3甚至禁用了DH，只支持ECDH。
+
+ECDH的流程比较简单，A和B各自持有一对椭圆曲线的公私钥，交换公钥后，再用自己的私钥乘对方的公钥，得到的结果就可以用来做secret密钥。
+
+## DSA
+
+DSA也算一种非对称算法，但它只能签名和验签，能力比较单一。传统的DSA算法基于有限域的离散对数难题，密钥强度和RSA是一样的，都要至少2048bit以上，后来逐渐和EC融合成了ECDSA，计算量小了很多。现在提起DSA默认就是ECDSA。其实DSA和EC属于同一类问题，但所在的群不同。
+
+DSA生成公私钥比RSA要多一个步骤，先用dsaparam生成参数文件，这份参数文件可以被多个用户共用，生成每个用户各自的公私钥对。决定签名结果的因素有HASH算法和KEY的长度，生成参数命令`openssl dsaparam -out dsaprm.pem 1024`。可以看到生成文件就包含P/Q/G三个大数。P和Q都是素数，且P-1必须是Q的整数倍。
+
+用dsaparam指令的`-genkey`也能直接生成公私钥，独立的genkey指令则可以对生成的公私钥文件进行AES/Camellia加密。这样生成的文件内既有公钥又有私钥，显然不适合分发，需要把公钥提取出来，命令`openssl dsa -in dsakey.pem -out dsapub.pem -pubout`，坑爹的是`-pubout`参数在dsa的帮助命令里居然没有，但从rsa命令的帮助能看到。
+
+有了公私钥文件，接下来可以选择一个文件进行签名和验证。Openssl并没有直接提供类似dsautl命令验证签名，需要用dgst指令完成。签名命令`openssl dgst -sha1 -sign dsakey.pem -out sign.dat yourfile`。其中sha1可以换成任意想要的摘要算法。比如选用了1024bit的私钥，生成的sign.dat是46bytes，DER编码的二进制文件，解码DER的话能得到两个大数R和S（位数一样），这一点和RSA的签名不同，两个大数的验证算法和RSA不同，这也是为什么DSA不能用来做加密的原因。验证签名命令`openssl dgst -verify dsapub.pem -sha1 -signature sign.dat yourfile`，通过会显示Verified OK，反之显示Verified Failure。
+
+使用ECDSA进行签名和验证和DSA类似，签名`openssl dgst -sha1 -sign eckey.pem -out ecsign.dat yourfile`，验证`openssl dgst -sha1 -verify ecpub.pem -signature ecsign.dat yourfile`。选用secp256k1曲线的签名结果是71字节以DER编码的文件。简单说明一下：
+
+首字节是0x30，第二个字节是0x45，十进制69表示该字节之后的文件长度，69\+2=71能够和文件总长度对上。第三个字节固定是0x02。第四字节0x21表示R的长度，偏移33字节后又是0x02，后一字节0x20表示S的长度，到此文件结束。不过没搞明白的是通过程序看到的R和S长度一样，为什么保存到文件R和S长度就不一样了。
