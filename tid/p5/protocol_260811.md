@@ -6,9 +6,11 @@
 
 ## 格式
 
-通过HTTP的101完成握手，后续交互的基本单位是frame。基础格式为二进制协议头+XOR掩码的payload。
+### url+frame的混合模式
 
-协议头有几个`Sec-WebSocket-*`字段，有两个请求时必填字段：key用于XOR掩码，version固定13。
+websocket是一种混合协议，初次握手和普通的HTTP一样，请求一个url地址，此时header要填`Sec-WebSocket-*`字段，有两个必填字段：key用于XOR掩码，version固定13。如果服务端要鉴权，也可以在header带上Authorization，不过由于浏览器的JS不能自定义header，所以这种鉴权模式并不推荐，可以改成在url中携带。
+
+服务端校验通过，返回101表示完成握手，此后这个socket就不再是HTTP连接，而是ws长连接了，后续交互的基本单位是frame，再也不会看到url。frame基础格式为二进制协议头+XOR掩码的payload。
 
 ### 协议头2~14byte
 
