@@ -6,7 +6,7 @@
 
 没有root的机器，根据安卓不同版本，选择不同的软件。
 
-* 安卓5.0及以上，用Termux或UbuntuForAndroid
+* 安卓5.0及以上，用Termux
 * 安卓4.4及以下，用GNURoot
 
 ## Termux
@@ -20,6 +20,8 @@
 默认bash，用chsh可以换sh，原理是把默认shell写入$HOME/.termux/shell。login不能作为默认shell。bash有700多K，而dash仅130K。bash提供了很多交互上方便的特性，典型的像通过改变PS1变量更换提示符，还有个内建钩子函数`command_not_found_handle`，当执行一个不存在的命令，会用一个外部程序给出更好的提示，比如用pkg安装某个对应包。
 
 在termux上编译软件要注意，因为默认的/usr/local路径不可用，必须用 ./configure --prefix=$PREFIX/stow/xx-1.0 方式显示指定安装路径。安装后，进入stow目录，执行stow xx-1.0就能用了，执行stow -D xx-1.0则删除该软件。
+
+termux在很多时候模拟linux几乎一致，但node装软件时经常会踩坑，因为node判断平台并不是用uname，而是node的process.platform，该函数会返回android，导致下载prebuild时没有适合的包，经常要从源码编译，而又因为android版本和bionic缺少函数定义，导致源码编译失败。
 
 ## UbuntuForAndroid
 
