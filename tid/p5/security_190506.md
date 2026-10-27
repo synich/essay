@@ -2,13 +2,17 @@
 
 所有对称加密的核心是XOR运算，因为XOR运算有一个非常神奇的特性A\*B\*B=A。也就是说A与B进行XOR运算之后的结果再和B运算就能复原A。A是明文，B是密钥，就是所有对称加密的基础。
 
-早期的对称加密算法只需要构造一个secret就能工作，而强对称加密算法需要secret+nonce两个参数。secret必须单独妥善保管，而nonce则是明文，而且必须和加密文件放在一起。常见的secret是128/256bit，而nonce基本是96bit，如果用于持久化存储，nonce可以用192bit随机数。
+## keystream
+
+早期的对称加密算法只需要构造一个secret就能工作，强对称加密算法需要secret+nonce两个参数。secret必须单独妥善保管，而nonce则是明文，而且必须和加密文件放在一起，使最终的XOR加密因子（标准叫法keystream）更具有可变性。可以简单地理解为，secret+以nonce为基准的计数器模式，使得keystream一直在变化，极大地提升破解难度。
+
+keystream是流式密码或分组加密的流化模式才有的概念，AES的术语中nonce也叫IV(init vector)，是一回事。CBC/ECB模式是对明文块做可逆转换，不产生keystream，ECB甚至不需要nonce，不过这两种模式已经几乎不再使用了。
+
+常见的secret是128/256bit，而nonce基本是96bit，如果用于持久化存储，nonce可以用192bit随机数。
 
 ## 分组加密AES
 
 AES在XOR基础上引入S-box模式，属于block块加密（也叫分组group加密），每次固定加密128或256位，密钥不能短于块长度（奇怪的是DES的密钥比块要短），当原文比块要长时，就要迭代进行，如何迭代就分化出ECB，CBC，GCM等众多模式，而AES我的理解是如何把加密块和密钥进行XOR的方式，两者的阶段不同，所以合称AES-GCM。
-
-AES的术语中nonce也叫IV(init vector)，是一回事。
 
 ### pad填充
 
