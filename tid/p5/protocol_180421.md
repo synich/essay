@@ -13,7 +13,7 @@
 
 另外，本建议还定义了一种新的MIME类型：multipart/form-data（因为urlencoded效率太低了），以及当处理一个带有
 ENCTYPE="multipart/form-data" 并且/或含有`<INPUT type="file">`的标记的表单时所应该
-采取的行为。详见 [[表单的请求类型]]
+采取的行为。见 [[表单的请求类型]] 和 [[Web的图像处理]]
 
 由于ENCTYPE不同，每个文件都必须配备一个单独的表单。不能和文本类的form共用一个表单。
 
