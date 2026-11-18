@@ -5,26 +5,38 @@
 	<title>Memo</title>
 	<meta content="width=device-width,initial-scale=1,maximum-scale=1.0" name="viewport">
 <style>
-:root{--tm-maxwide:80em;}
-body{color:#111;background-color:#f4f4f4;font-family: sans-serif;}
-h1{font-size:2em;background-color:#202020;color:#e7e7e7;margin:0;padding-top:0.5em;padding-left:0.5em;}
-h2{font-size:1.5em;color:#037;padding-top:0.2em;margin:0.2em;}
-h3{color:#409eff;}
-h4{color:#40aaff;}
-p{font-size:1.2em;}
+:root{--mel-max-width:80rem;--mel-nav-bg:#4a51a9;}
+html{box-sizing:border-box;}
+*,*::before,*::after{box-sizing:inherit;}
+body{max-width:var(--mel-max-width);color:#111;background:#f2f2f2;margin:0 auto;}
+header{font-size:2em;background:var(--mel-nav-bg);color:#e0e7ff;padding-top:0.5em;padding-left:0.5em;font-weight:bold;}
+nav {background:var(--mel-nav-bg);padding:0 0.5em;margin:0 auto;display: flex;}
+main{}
+article{background:#ececec;margin:0 auto;padding:0 1rem;}
+footer{text-align: center;}
+h1{font-size:2em;background:#f0f0f0;color:#026;margin:0;padding-top:0.5em;padding-left:0.1em;}
+h2{font-size:1.7em;color:#037;padding-top:0.2em;padding-left:0.2em;margin:0.2em;}
+h3{font-size:1.4em;color:#409eff;padding-left:0.3em;}
+h4{color:#40aaff;padding-left:0.4em;}
+
+p{font-family:sans-serif;font-size:1.1em;}
 em{color:#00f;font-style:normal;}strong{color:#f00;font-style:normal;}
 pre{white-space:pre-wrap;font-size:1.1em;}
 code{background-color:#f1f1f1;font-size:1.1em;color:#d73737;}
 pre code{display: block;border: 1px solid #cccccc;}
-blockquote{border-left:4px solid #bbb;padding-left:0.5em;margin:0 1.5em;}
-ul li{list-style:circle;}
+blockquote{border-left:4px solid #bbb;padding-left:0.5em;}
+ul li{list-style:circle inside;}ol li{list-style:decimal inside;}
 table{border-collapse:collapse;border:1px solid;width:100%}th{border:1px solid;}td{border:1px solid;}
+img {max-width: 100%;}
+
+
+nav h1 {background: var(--mel-nav-bg);color: #dce744; flex:3;}
+nav h2 {background: var(--mel-nav-bg);color: #eea;flex: auto;}
+nav label {background: var(--mel-nav-bg); color:#fff; padding-top:0.5em;}
 textarea{font-family: sans-serif;width:100%;height:80vh;font-size:1em}
-article{background-color:hsl(60, 9%, 87%);max-width:var(--tm-maxwide);margin:0 auto;padding:0 1rem;}
-.card{opacity: 0.87;position: relative;max-width:var(--tm-maxwide);margin:0 auto 8px;
+.card{opacity: 0.87;position: relative;max-width:var(--mel-max-width);margin:0 auto 8px;
 box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
 border-radius: 8px;background: white;}
-div.card h1{font-size:1.8em;color:#026;background-color:#f0f0f0;}
 .sec_pad{padding: 8px 12px;}
 .art_pad{padding: 2px 12px;}
 .kwd_pad{padding: 0px 12px;}
@@ -35,14 +47,8 @@ textarea.auto_high{position: absolute;top: 0;height: 100%;padding:0px 4px;box-si
 div.sd_by_sd{flex:1;}
 .prv_pad{padding-left:8px;}
 span.kwd_em{color:red}
-.footer{margin: 0 auto;text-align: center}
-nav {max-width:var(--tm-maxwide);padding:0 12px;margin:0 auto;display: flex;}
-nav h1 {background:#202020; flex:3;}
-nav label {background:#202020; color:#fff; padding-top:0.5em;}
-nav h2 {background: #009933;color: #eea;flex: auto;}
 .s_item{margin: 10px auto;text-decoration: underline;color: blue;}
 .top_h2{border-bottom: 1px solid green;padding-bottom: 0.4em;}
-img {max-width: 100%;}
 @media screen and (max-width: 400px) { #kwd{width: 100px;} }
 </style>
 <script type="text/javascript">
@@ -73,5 +79,5 @@ function load_jctx(){
 <nav><h2>Archive</h2></nav>
 <section id="eTopTag3" class="card sec_pad"></section>
 
-<footer id="eFter" class="footer"></footer>
+<footer id="eFter"></footer>
 </body></html>
